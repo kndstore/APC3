@@ -9,7 +9,7 @@
       background: #d4edda; /* vert clair doux */
       min-height: 100vh;
       display: flex;
-      align-items: center;
+      align-items:end;
       justify-content: center;
       font-family: 'Poppins', sans-serif;
       animation: fadeIn 1s ease-in-out;
@@ -25,11 +25,12 @@
       color: #0f172a;
       padding: 2.5rem 2rem;
       border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      box-shadow: 10px 8px 20px rgba(0,0,0,0.15);
       width: 100%;
       max-width: 400px;
       text-align: center;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      
     }
 
     .login-card:hover {
@@ -79,8 +80,10 @@
   </style>
 </head>
 
-<body style="flex-direction: column;">
-  <div class="login-card shadow">
+<body style="flex-direction: column; 
+             background: url('/images/ALGERIA.jpg') no-repeat center center fixed;
+             background-size: cover;">
+<div class="login-card shadow" style="background-color: rgba(214, 22, 22, 0.384);">
     <h2>🔐 Connexion</h2>
 
     <% if (message) { %>
