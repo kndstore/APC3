@@ -22,11 +22,23 @@ router.post('/add', async (req, res) => {
   res.redirect(`/section?nom=${userNom}&role=${userRole}`); // 👈 Retour avec infos utilisateur
 });
 
-// 💾 Modifier une section
-router.post('/edit/:id', async (req, res) => {
-  const { userNom, userRole } = req.body;
-  await Section.findByIdAndUpdate(req.params.id, req.body);
-  res.redirect(`/section?nom=${userNom}&role=${userRole}`);
+// 🔄 Mettre à jour une section
+router.put('/update/:id', async (req, res) => {
+  try {
+    const { nom, chef, localisation } = req.body;
+    const section = await Section.findByIdAndUpdate(
+      req.params.id,
+      { nom, chef, localisation },
+      { new: true }
+    );
+
+    if (!section) return res.status(404).send('Section non trouvée');
+
+    res.sendStatus(200);
+  } catch (err) {
+    console.error('❌ Erreur maj section :', err);
+    res.status(500).send('Erreur serveur');
+  }
 });
 
 // 🗑 Supprimer une section
