@@ -4,142 +4,135 @@
   <meta charset="UTF-8">
   <title>Gestion du Stock</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
   <style>
-    :root {
-      --bg-dark: #0f172a;
-      --bg-light: #f8fafc;
-      --text-dark: #e2e8f0;
-      --text-light: #0f172a;
-      --accent: #3b82f6;
-      --accent-light: #60a5fa;
-      --danger: #ef4444;
-      --success: #22c55e;
-      --warning: #facc15;
-    }
-
     body {
-      background: radial-gradient(circle at top left, #1e3a8a, #0f172a);
-      color: var(--text-dark);
-      min-height: 100vh;
+      background: linear-gradient(to bottom right, #f8fafc, #e2e8f0);
       font-family: 'Poppins', sans-serif;
-      transition: all 0.5s ease;
+      color: #1e293b;
+      min-height: 100vh;
     }
 
-    body.light-mode {
-      background: radial-gradient(circle at top left, #dbeafe, #f8fafc);
-      color: var(--text-light);
+    .navbar {
+      background-color: #1e293b;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+    }
+
+    .navbar .btn {
+      border-radius: 8px;
+      font-weight: 500;
     }
 
     .glass-card {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
       transition: all 0.3s ease;
     }
 
-    body.light-mode .glass-card {
-      background: rgba(255, 255, 255, 0.8);
-      color: #0f172a;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    .glass-card:hover {
+      transform: translateY(-3px);
     }
 
-    .glass-card:hover {
-      transform: translateY(-5px);
+    table {
+      border-radius: 10px;
+      overflow: hidden;
     }
 
     th {
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: #f1f5f9;
       text-transform: uppercase;
       font-size: 0.85rem;
       letter-spacing: 0.05em;
     }
 
-    body.light-mode th {
-      background-color: rgba(0, 0, 0, 0.05);
-    }
-
     .btn {
       border-radius: 10px;
-      font-weight: 500;
       transition: all 0.3s ease;
     }
 
     .btn-primary {
-      background: var(--accent);
+      background-color: #3b82f6;
       border: none;
     }
 
     .btn-primary:hover {
-      background: var(--accent-light);
-      transform: scale(1.05);
+      background-color: #2563eb;
     }
 
-    .btn-toggle {
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      color: var(--text-dark);
+    .btn-warning {
+      background-color: #facc15;
+      border: none;
     }
 
-    body.light-mode .btn-toggle {
-      border: 1px solid rgba(0, 0, 0, 0.4);
-      color: var(--text-light);
-    }
-body.light-mode h4 {
-  color: #1e3a8a !important; /* Bleu foncé ou couleur de ton choix */
-}
-
-    .btn-toggle:hover {
-      background: var(--accent);
-      color: white;
+    .btn-danger {
+      background-color: #ef4444;
+      border: none;
     }
 
-    .form-control {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+    .btn-outline-dark {
+      border-color: #1e293b;
+      color: #1e293b;
+    }
+
+    .btn-outline-dark:hover {
+      background-color: #1e293b;
       color: #fff;
     }
 
-    body.light-mode .form-control {
-      background: rgba(0, 0, 0, 0.05);
-      color: #000;
+    .logout {
+      background-color: #e2e8f0;
+      color: #1e293b;
     }
 
     .logout:hover {
-      background-color: #ef4444;
-      color: #fff;
-      transform: scale(1.05);
+      background-color: #dc2626;
+      color: white;
+    }
+
+    h4 {
+      color: #1e3a8a;
+      font-weight: 600;
+    }
+
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #475569;
     }
   </style>
 </head>
 
-<body class="container py-5">
+<body class="container py-4">
 
   <!-- HEADER -->
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h5>👋 Bienvenue <strong><%= nom %></strong> (<%= role %>)</h5>
+  <nav class="navbar navbar-dark px-4 d-flex justify-content-between align-items-center">
+    <h5 class="text-light mb-0">📦 Gestion du Stock</h5>
     <div class="d-flex gap-2">
-      <button id="toggleMode" class="btn btn-toggle">🌙 Mode Sombre</button>
-      <a href="/materiel?nom=<%= nom %>&role=<%= role %>" class="btn btn-primary">📁 Acceuil</a>
-      <a href="/" class="btn btn-outline-light logout " style="color: gold;background: #1e3a8a;">← Déconnexion</a>
+      <a href="/materiel?nom=<%= nom %>&role=<%= role %>" class="btn btn-primary btn-sm">Accueil</a>
+      <a href="/" class="btn logout btn-sm">Déconnexion</a>
     </div>
-  </div>
+  </nav>
 
   <!-- MAIN CARD -->
-  <div class="glass-card p-4">
-    <h4 class="mb-3 text-center text-light" style="color: forestgreen;">📦 Liste du Matériel</h4>
+  <div class="glass-card">
+    <h4 class="text-center mb-4">Liste du Matériel</h4>
+
+    <div class="text-end mb-3">
+      <button id="exportPDF" class="btn btn-outline-dark btn-sm">📄 Exporter en PDF</button>
+    </div>
 
     <div class="table-responsive">
-      <table class="table table-hover align-middle text-center">
-        <thead>
+      <table class="table table-bordered align-middle text-center">
+        <thead class="table-light">
           <tr>
             <th>Désignation</th>
-            <th>Qté</th>
-            <th>N° Série</th>
-          
+            <th>Quantité</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -148,8 +141,7 @@ body.light-mode h4 {
             <tr data-id="<%= m._id %>">
               <td contenteditable="true"><%= m.designation %></td>
               <td contenteditable="true"><%= m.qte %></td>
-              <td contenteditable="true"><%= m.ns %></td>
-             <td>
+              <td>
                 <button class="btn btn-warning btn-sm editBtn">💾</button>
                 <button class="btn btn-danger btn-sm deleteBtn">🗑</button>
               </td>
@@ -159,56 +151,29 @@ body.light-mode h4 {
       </table>
     </div>
 
-    <hr class="border-light my-4">
+    <hr>
 
-    <h5 class="mb-3">➕ Ajouter un matériel au stock</h5>
+    <h5 class="mb-3">➕ Ajouter un matériel</h5>
 
     <form id="addForm" class="row g-3">
-      <div class="col-md-4">
+      <div class="col-md-6 col-lg-5">
         <input class="form-control" name="designation" placeholder="Désignation" required>
       </div>
-      <div class="col-md-2">
-        <input class="form-control" type="number" name="qte" placeholder="Qté" required>
+      <div class="col-md-3 col-lg-2">
+        <input class="form-control" type="number" name="qte" placeholder="Quantité" required>
       </div>
-      <div class="col-md-3">
-        <input class="form-control" name="ns" placeholder="Numéro de série" required>
-      </div>
-      
-      
-      
-      <div class="col-md-4 d-grid">
+      <div class="col-md-3 col-lg-3 d-grid">
         <button class="btn btn-success">Ajouter</button>
       </div>
     </form>
   </div>
 
-  <p class="text-center mt-4 opacity-75">© 2025 — Gestion du stock  </p>
+  <footer>
+    © 2025 — Gestion du stock | Design moderne et épuré
+  </footer>
 
+  <!-- JS -->
   <script>
-    // 🌗 TOGGLE MODE SOMBRE / CLAIR
-    const toggleBtn = document.getElementById('toggleMode');
-    const body = document.body;
-
-    // Charger le mode sauvegardé
-    if (localStorage.getItem('theme') === 'light') {
-      body.classList.add('light-mode');
-      toggleBtn.textContent = '🌙 Mode Sombre';
-    } else {
-      body.classList.remove('light-mode');
-      toggleBtn.textContent = '☀️ Mode Clair';
-    }
-
-    toggleBtn.addEventListener('click', () => {
-      body.classList.toggle('light-mode');
-      if (body.classList.contains('light-mode')) {
-        localStorage.setItem('theme', 'light');
-        toggleBtn.textContent = '🌙 Mode Sombre';
-      } else {
-        localStorage.setItem('theme', 'dark');
-        toggleBtn.textContent = '☀️ Mode Clair';
-      }
-    });
-
     // ➕ AJOUT
     document.getElementById('addForm').addEventListener('submit', async e => {
       e.preventDefault();
@@ -230,22 +195,20 @@ body.light-mode h4 {
         const data = {
           designation: cells[0].innerText,
           qte: cells[1].innerText,
-          ns: cells[2].innerText,
-         
         };
         const res = await fetch(`/stock/edit/${id}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
         });
-        if (res.ok) showToast('stock ✅');
+        if (res.ok) alert("✅ Stock modifié avec succès");
       });
     });
 
     // 🗑 SUPP
     document.querySelectorAll('.deleteBtn').forEach(btn => {
       btn.addEventListener('click', async e => {
-        if (!confirm('Supprimer  ?')) return;
+        if (!confirm('Supprimer ce matériel ?')) return;
         const tr = e.target.closest('tr');
         const id = tr.dataset.id;
         const res = await fetch(`/stock/delete/${id}`, { method: 'DELETE' });
@@ -253,20 +216,35 @@ body.light-mode h4 {
       });
     });
 
-    // ✅ TOAST
-    function showToast(msg) {
-      const toast = document.createElement('div');
-      toast.className = "toast align-items-center text-bg-success border-0 show position-fixed bottom-0 end-0 m-4";
-      toast.innerHTML = `
-        <div class="d-flex">
-          <div class="toast-body">${msg}</div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto"></button>
-        </div>`;
-      document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 3000);
-    }
-  </script>
+    // 📄 EXPORT PDF
+    document.getElementById("exportPDF").addEventListener("click", () => {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+      doc.setFontSize(18);
+      doc.text("Liste du Stock - APC Zighoud Youcef", 40, 50);
+
+      const today = new Date().toLocaleDateString();
+      doc.setFontSize(10);
+      doc.text(`Exporté le ${today}`, 40, 70);
+
+      const rows = [];
+      document.querySelectorAll("table tbody tr").forEach(tr => {
+        const tds = tr.querySelectorAll("td");
+        rows.push([tds[0].innerText.trim(), tds[1].innerText.trim()]);
+      });
+
+      doc.autoTable({
+        startY: 90,
+        head: [["Désignation", "Quantité"]],
+        body: rows,
+        theme: "grid",
+        styles: { halign: "center", valign: "middle", fontSize: 11 },
+        headStyles: { fillColor: [59, 130, 246], textColor: 255, fontStyle: "bold" },
+      });
+
+      doc.save("Stock_APC_Zighoud_Youcef.pdf");
+    });
+  </script>
 </body>
 </html>

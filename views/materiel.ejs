@@ -8,76 +8,150 @@
   <!-- 🔹 jsPDF + AutoTable -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-
-  <style>
-    /* 🌈 Couleurs et transitions */
+ <style>
     :root {
-      --bg-dark: #0f172a;
-      --bg-light: #f8fafc;
-      --text-dark: #e2e8f0;
-      --text-light: #0f172a;
-      --accent: #3b82f6;
-      --accent-light: #60a5fa;
-      --danger: #ef4444;
-      --success: #22c55e;
-    }
-
-    * {
-      font-family: 'Roboto', sans-serif;
+      --red: #e11d48;
+      --green: #16a34a;
+      --white: #ffffff;
+      --dark-bg: #0f172a;
+      --light-bg: #f8fafc;
+      --dark-text: #e2e8f0;
+      --light-text: #111827;
     }
 
     body {
-      background: radial-gradient(circle at top left, #1e3a8a, #0f172a);
-      color: var(--text-dark);
-      min-height: 100vh;
-      transition: all 0.5s ease;
+      font-family: 'Roboto', sans-serif;
+      background: radial-gradient(circle at top left, #052e16, #0f172a);
+      color: var(--dark-text);
+      transition: all 0.4s ease;
+      padding-top: 80px;
     }
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
-}
 
-.navbar-brand img {
-  animation: pulse 2s ease-in-out infinite;
-  transform-origin: center;
-}
     body.light-mode {
-      background: radial-gradient(circle at top left, #dbeafe, #f8fafc);
-      color: var(--text-light);
+      background: radial-gradient(circle at top left, #e6f4ea, #ffffff);
+      color: var(--light-text);
     }
 
-    /* 🧭 NAVBAR */
+    /* 🔹 NAVBAR */
     .navbar {
       background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid var(--green);
+      transition: 0.4s;
+    }
+
+    body.light-mode .navbar {
+      background: rgba(255, 255, 255, 0.85);
+      border-bottom: 2px solid var(--red);
     }
 
     .navbar-brand img {
-      width: 40px;
-      height: 40px;
-      margin-right: 8px;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      animation: spin 8s linear infinite;
     }
 
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .navbar-brand span {
+      color: var(--green);
+      font-weight: 700;
+    }
+    body.light-mode .navbar-brand span {
+      color: var(--red);
+    }
+
+    /* 🔗 Liens de la navbar */
     .btnnav-link {
-      display: inline-block;
       padding: 6px 15px;
       border-radius: 8px;
       background-color: rgba(255, 255, 255, 0.1);
       color: #fff;
       font-weight: 600;
-      transition: all 0.3s ease;
       text-decoration: none;
+      transition: all 0.3s ease;
     }
 
     .btnnav-link:hover {
-      background-color: #fff;
-      color: #59fd0d;
+      background: var(--green);
+      color: #fff;
       transform: translateY(-2px);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 3px 10px rgba(22, 163, 74, 0.4);
     }
 
+    body.light-mode .btnnav-link {
+      color: var(--light-text);
+      background-color: rgba(255, 255, 255, 0.6);
+    }
+    body.light-mode .btnnav-link:hover {
+      background: var(--red);
+      color: #fff;
+    }
+
+    /* 🌈 Boutons */
+    .btn-success {
+      background: var(--green);
+      border: none;
+      transition: 0.3s;
+    }
+    .btn-success:hover {
+      background: #15803d;
+      transform: scale(1.05);
+    }
+
+    .btn-danger {
+      background: var(--red);
+      border: none;
+      transition: 0.3s;
+    }
+    .btn-danger:hover {
+      background: #be123c;
+      transform: scale(1.05);
+    }
+
+    .btn-warning {
+      background: #fff;
+      color: var(--green);
+      font-weight: bold;
+      border: 2px solid var(--green);
+      transition: 0.3s;
+    }
+    .btn-warning:hover {
+      background: var(--green);
+      color: #fff;
+    }
+
+    body.light-mode .btn-warning {
+      color: var(--red);
+      border-color: var(--red);
+    }
+    body.light-mode .btn-warning:hover {
+      background: var(--red);
+      color: #fff;
+    }
+
+    /* 🧾 Table */
+    .table thead {
+      background: var(--green);
+      color: #fff;
+    }
+
+    body.light-mode .table thead {
+      background: var(--red);
+    }
+
+    .table tbody tr:hover {
+      background: rgba(34, 197, 94, 0.1);
+    }
+    body.light-mode .table tbody tr:hover {
+      background: rgba(225, 29, 72, 0.1);
+    }
+
+    /* 💎 Carte */
     .glass-card {
       background: rgba(255, 255, 255, 0.05);
       border-radius: 16px;
@@ -85,49 +159,83 @@
       border: 1px solid rgba(255, 255, 255, 0.15);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
       transition: 0.3s;
-      padding: 25px;
+      padding: 15px;
+      width: 98%;
     }
 
     body.light-mode .glass-card {
-      background: rgba(255, 255, 255, 0.9);
-      color: var(--text-light);
+      background: rgba(255, 255, 255, 0.95);
       border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     }
 
-    #filterDesignation, #filterSection {
-      border-radius: 8px;
-      transition: 0.3s ease;
-    }
-    #filterDesignation:focus, #filterSection:focus {
-      box-shadow: 0 0 6px rgba(46, 125, 50, 0.4);
-      border-color: #2e7d32;
-    }
-
-    .logout {
-      background: #1e3a8a;
-      color: gold;
+    /* 🌙 Bouton mode */
+    #toggleMode {
+      background: var(--green);
+      color: white;
       border: none;
-      border-radius: 10px;
-      padding: 6px 12px;
+      border-radius: 8px;
       transition: 0.3s;
     }
-    .logout:hover {
-      background: #ef4444;
+    #toggleMode:hover {
+      background: var(--red);
+    }
+    body.light-mode #toggleMode {
+      background: var(--red);
+    }
+    body.light-mode #toggleMode:hover {
+      background: var(--green);
+    }
+
+    /* Déconnexion */
+    .logout {
+      background: var(--red);
       color: white;
+      border-radius: 8px;
+      padding: 6px 12px;
+      transition: 0.3s;
+      border: none;
+    }
+    .logout:hover {
+      background: #b91c1c;
       transform: scale(1.05);
+    }
+
+    /* Entrées et filtres */
+    input, select {
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      transition: all 0.3s ease;
+    }
+    input:focus, select:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 6px rgba(22, 163, 74, 0.4);
+    }
+    body.light-mode input:focus, body.light-mode select:focus {
+      border-color: var(--red);
+      box-shadow: 0 0 6px rgba(225, 29, 72, 0.4);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      color: #94a3b8;
+    }
+    body.light-mode footer {
+      color: #475569;
     }
   </style>
 </head>
 
 <body>
 
-<!-- 🔹 NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm mb-5">
+<!-- 🔹 NAVBAR FIXE -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
   <div class="container-fluid">
-   <a class="navbar-brand d-flex align-items-center" href="#">
-  <img src="/images/ZY.png" alt="Logo APC" width="40" height="40" class="me-2 rounded-circle shadow-sm">
-  <span class="fw-bold">APC Zighoud Youcef</span>
-</a>
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="/images/ZY.png" alt="Logo APC" width="40" height="40" class="me-2 rounded-circle shadow-sm">
+      <span class="fw-bold">APC Zighoud Youcef</span>
+    </a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
       <span class="navbar-toggler-icon"></span>
@@ -138,14 +246,14 @@
         <li><a class="btnnav-link" href="/materiel?nom=<%= nom %>&role=<%= role %>">🏠 Accueil</a></li>
         <li><a class="btnnav-link" href="/section?nom=<%= nom %>&role=<%= role %>">📁 Sections</a></li>
         <% if (role === 'Administrateur') { %>
-        <li><a class="btnnav-link" href="/stock?nom=<%= nom %>&role=<%= role %>">📦 Stock</a></li>
-        <li><a class="btnnav-link" href="/utilisateurs?nom=<%= nom %>&role=<%= role %>">👥 Utilisateurs</a></li>
+          <li><a class="btnnav-link" href="/stock?nom=<%= nom %>&role=<%= role %>">📦 Stock</a></li>
+          <li><a class="btnnav-link" href="/utilisateurs?nom=<%= nom %>&role=<%= role %>">👥 Utilisateurs</a></li>
         <% } %>
       </ul>
 
       <ul class="navbar-nav align-items-center gap-2">
         <li><p class="text-light mb-0">👋 <%= nom %> (<%= role %>)</p></li>
-        <li><button id="toggleMode" class="btn btn-sm btn-light">🌙</button></li>
+        
         <li><a href="/" class="btn btn-sm btn-outline-light">← Déconnexion</a></li>
       </ul>
     </div>
@@ -301,29 +409,25 @@
 
 <p class="text-center mt-4 opacity-75">© 2025 — APC Zighoud Youcef | Gestion du Matériel</p>
 
-<!-- 🌗 MODE SOMBRE / CLAIR -->
-<script>
-  const toggleBtn = document.getElementById('toggleMode');
-  const body = document.body;
+<!-- 🌗 Mode clair/sombre script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const body = document.body;
+      const toggleBtn = document.createElement("button");
+      toggleBtn.id = "toggleMode";
+      toggleBtn.textContent = localStorage.getItem("theme") === "light" ? "🌙" : "☀️";
 
-  if (localStorage.getItem('theme') === 'light') {
-    body.classList.add('light-mode');
-    toggleBtn.textContent = '🌙';
-  } else {
-    toggleBtn.textContent = '☀️';
-  }
+      if (localStorage.getItem("theme") === "light") body.classList.add("light-mode");
+      document.body.prepend(toggleBtn);
 
-  toggleBtn.addEventListener('click', () => {
-    body.classList.toggle('light-mode');
-    if (body.classList.contains('light-mode')) {
-      localStorage.setItem('theme', 'light');
-      toggleBtn.textContent = '🌙';
-    } else {
-      localStorage.setItem('theme', 'dark');
-      toggleBtn.textContent = '☀️';
-    }
-  });
-</script>
+      toggleBtn.addEventListener("click", () => {
+        body.classList.toggle("light-mode");
+        const isLight = body.classList.contains("light-mode");
+        localStorage.setItem("theme", isLight ? "light" : "dark");
+        toggleBtn.textContent = isLight ? "🌙" : "☀️";
+      });
+    });
+  </script>
 
 <!-- ✏️ ÉDITION -->
 <script>
@@ -441,6 +545,8 @@ if (table) {
   filterSection.addEventListener('change', filterTable);
 }
 </script>
+<!-- 🔎 EXPORTER PDF -->
+
 <script>
   document.getElementById('exportPDF').addEventListener('click', () => {
     const { jsPDF } = window.jspdf;

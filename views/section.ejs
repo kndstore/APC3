@@ -5,148 +5,193 @@
   <title>Gestion des Sections</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
- 
   <style>
-    :root {
-      --bg-dark: #0f172a;
-      --bg-light: #f8fafc;
-      --text-dark: #e2e8f0;
-      --text-light: #0f172a;
-      --accent: #3b82f6;
-      --accent-light: #60a5fa;
-      --danger: #ef4444;
-      --success: #22c55e;
-    }
-
+    /* 🌈 Thème général */
     body {
-      background: radial-gradient(circle at top left, #1e3a8a, #0f172a);
-      color: var(--text-dark);
-      min-height: 100vh;
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
       font-family: 'Poppins', sans-serif;
-      transition: all 0.5s ease;
-    }
-@keyframes swing {
-  0% { transform: rotate(0deg) scale(1); }
-  25% { transform: rotate(10deg) scale(1.1); }
-  50% { transform: rotate(0deg) scale(1); }
-  75% { transform: rotate(-10deg) scale(1.1); }
-  100% { transform: rotate(0deg) scale(1); }
-}
-
-.navbar-brand img {
-  animation: swing 2.5s ease-in-out infinite;
-  transform-origin: 50% 50%;
-}
-    body.light-mode {
-      background: radial-gradient(circle at top left, #dbeafe, #f8fafc);
-      color: var(--text-light);
+      min-height: 100vh;
+      transition: all 0.4s ease;
     }
 
-    /* NAVBAR */
+    body.dark-mode {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #f8fafc;
+    }
+
+    /* 🌟 NAVBAR FIXE & MODERNE */
     .navbar {
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border-bottom: 3px solid #22c55e;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
     }
-    body.light-mode .navbar {
-      background: rgba(255, 255, 255, 0.9);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    body.dark-mode .navbar {
+      background: #1e293b;
+      border-bottom: 3px solid #10b981;
     }
 
     .navbar-brand img {
-      width: 40px;
-      height: 40px;
-      margin-right: 8px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      animation: slowSpin 6s linear infinite;
+    }
+
+    @keyframes slowSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .navbar-brand span {
+      color: #16a34a;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    body.dark-mode .navbar-brand span {
+      color: #4ade80;
     }
 
     .nav-link {
-      color: var(--text-dark) !important;
+      color: #1e293b !important;
       font-weight: 500;
-      transition: 0.3s;
+      transition: color 0.3s ease;
     }
     .nav-link:hover {
-      color: var(--accent-light) !important;
+      color: #16a34a !important;
     }
-    body.light-mode .nav-link {
-      color: var(--text-light) !important;
+    body.dark-mode .nav-link {
+      color: #e2e8f0 !important;
+    }
+    body.dark-mode .nav-link:hover {
+      color: #4ade80 !important;
     }
 
+    /* 🌘 Bouton mode */
     .btn-toggle {
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: var(--text-dark);
-      transition: 0.3s;
-    }
-    body.light-mode .btn-toggle {
-      border: 1px solid rgba(0, 0, 0, 0.3);
-      color: var(--text-light);
+      background: #22c55e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      transition: all 0.3s;
     }
     .btn-toggle:hover {
-      background: var(--accent);
-      color: #fff;
-    }
-
-    .logout {
-      background: #1e3a8a;
-      color: rgb(4, 14, 148);
-      font-weight: 500;
-      border: none;
-      border-radius: 10px;
-      padding: 6px 12px;
-    }
-    .logout:hover {
-      background: #ef4444;
-      color: #fff;
+      background: #16a34a;
       transform: scale(1.05);
     }
+    body.dark-mode .btn-toggle {
+      background: #4ade80;
+      color: #1e293b;
+    }
 
-    .glass-card {
-      background: rgba(255, 255, 255, 0.05);
+    /* 🚪 Déconnexion */
+    .logout {
+      background: #ef4444;
+      color: white;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    .logout:hover {
+      background: #dc2626;
+      transform: translateY(-2px);
+    }
+
+    /* 📦 CONTENU */
+    .container {
+      padding-top: 120px;
+      padding-bottom: 50px;
+    }
+
+    .card-3d {
+      background: #ffffff;
       border-radius: 16px;
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-      transition: 0.3s;
+      padding: 2rem;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
     }
-    body.light-mode .glass-card {
-      background: rgba(255, 255, 255, 0.85);
-      color: #0f172a;
-      border: 1px solid rgba(0, 0, 0, 0.1);
+    .card-3d:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.15);
     }
-    h4 {
-      color: forestgreen;
+    body.dark-mode .card-3d {
+      background: #1e293b;
+      box-shadow: 0 6px 20px rgba(255,255,255,0.05);
     }
-    body.light-mode ,p {
-      color: #044b3b !important;
+
+    /* 🧾 TABLE */
+    th {
+      background: #e2e8f0;
+      color: #1e293b;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
+    td {
+      vertical-align: middle;
+    }
+    body.dark-mode th {
+      background: #334155;
+      color: #f1f5f9;
+    }
+    tr:hover {
+      background: rgba(34, 197, 94, 0.1);
+      transition: background 0.3s;
+    }
+    body.dark-mode tr:hover {
+      background: rgba(34, 197, 94, 0.15);
+    }
+
+    /* 🟩 Boutons d’action */
+    .btn-success {
+      background: #22c55e;
+      border: none;
+    }
+    .btn-success:hover {
+      background: #16a34a;
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      border: none;
+    }
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      color: #64748b;
+    }
+    body.dark-mode footer {
+      color: #94a3b8;
     }
   </style>
 </head>
 
-<body >
- <!-- 🔹 NAVBAR -->
-  <nav class="navbar navbar-expand-lg navbar-dark px-4 mb-5">
+<body>
+  <!-- 🔹 NAVBAR -->
+  <nav class="navbar navbar-expand-lg px-4 shadow-sm">
     <a class="navbar-brand d-flex align-items-center" href="#">
-  <img src="/images/ZY.png" alt="Logo APC" width="40" height="40" class="me-2 rounded-circle shadow-sm">
-  <span class="fw-bold">APC Zighoud Youcef</span>
-</a>
-
-      <P>👋 Bienvenue <%= nom %> (<%= role %>)</P>     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <img src="/images/ZY.png" alt="Logo APC" class="me-2 shadow-sm">
+      <span>APC Zighoud Youcef</span>
+    </a>
+    <a href="#" style="color: #f33809; text-decoration: none;">👋<%= nom %> (<%= role %>)</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="mainNav">
-      <ul class="navbar-nav ms-auto align-items-center gap-2">
-        <li class="nav-item">
-          <a class="nav-link" href="/materiel?nom=<%= nom %>&role=<%= role %>" >🏠 Accueil</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/section?nom=<%= nom %>&role=<%= role %>">📁 Sections</a>
-        </li>
-       <% if (role === 'Administrateur') { %>
-         <li class="nav-item">
-          <a class="nav-link" href="/stock?nom=<%= nom %>&role=<%= role %>">📦 Stock</a>
-         </li>
-         <% } %>
+    <div class="collapse navbar-collapse justify-content-end" id="mainNav">
+      <ul class="navbar-nav align-items-center gap-2">
+        <li class="nav-item"><a class="nav-link" href="/materiel?nom=<%= nom %>&role=<%= role %>">🏠 Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="/section?nom=<%= nom %>&role=<%= role %>">📁 Sections</a></li>
+        <% if (role === 'Administrateur') { %>
+          <li class="nav-item"><a class="nav-link" href="/stock?nom=<%= nom %>&role=<%= role %>">📦 Stock</a></li>
+        <% } %>
         <li class="nav-item">
           <button id="toggleMode" class="btn btn-sm btn-toggle">🌙</button>
         </li>
@@ -156,143 +201,76 @@
       </ul>
     </div>
   </nav>
-  <!-- HEADER -->
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3>🏷️ Gestion des Sections</h3>
-    
-  </div>
 
-  <!-- MAIN -->
-  <div class="glass-card p-4">
-    <h4 class="mb-4 text-center  ">📋 Liste des Sections</h4>
+  <!-- 🧭 CONTENU -->
+  <div class="container">
+    <div class="card-3d mb-4">
+      <h3 class="mb-4 text-center fw-bold text-success">🏷️ Gestion des Sections</h3>
 
-    <div class="table-responsive">
-      <table class="table table-hover text-center text-white align-middle">
-        <thead>
-          <tr>
-            <th>Nom de la Section</th>
-            <th>Chef de Section</th>
-            <th>Localisation</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% sections.forEach(s => { %>
-            <tr data-id="<%= s._id %>">
-              <td contenteditable="true"><%= s.nom %></td>
-              <td contenteditable="true"><%= s.chef %></td>
-              <td contenteditable="true"><%= s.localisation %></td>
-              <td>
-                <button class="btn btn-success btn-sm saveBtn">💾</button>
-                <button class="btn btn-danger btn-sm deleteBtn">🗑</button>
-              </td>
+      <div class="table-responsive">
+        <table class="table table-hover text-center align-middle">
+          <thead>
+            <tr>
+              <th>Nom de la Section</th>
+              <th>Chef de Section</th>
+              <th>Localisation</th>
+              <th>Actions</th>
             </tr>
-          <% }) %>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <% sections.forEach(s => { %>
+              <tr data-id="<%= s._id %>">
+                <td contenteditable="true"><%= s.nom %></td>
+                <td contenteditable="true"><%= s.chef %></td>
+                <td contenteditable="true"><%= s.localisation %></td>
+                <td>
+                  <button class="btn btn-success btn-sm saveBtn">💾</button>
+                  <button class="btn btn-danger btn-sm deleteBtn">🗑</button>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+      <hr class="my-4">
+
+      <h5 class="mb-3 text-primary fw-semibold">➕ Ajouter une Section</h5>
+      <form id="addForm" class="row g-3">
+        <div class="col-md-4">
+          <input type="text" name="nom" class="form-control" placeholder="Nom de la section" required>
+        </div>
+        <div class="col-md-4">
+          <input type="text" name="chef" class="form-control" placeholder="Chef de section" required>
+        </div>
+        <div class="col-md-4">
+          <input type="text" name="localisation" class="form-control" placeholder="Localisation" required>
+        </div>
+        <div class="col-md-12 d-grid">
+          <button class="btn btn-success">Ajouter</button>
+        </div>
+      </form>
     </div>
 
-    <hr class="border-light my-4">
-
-    <h5>➕ Ajouter une Section</h5>
-    <form id="addForm" class="row g-3">
-      <div class="col-md-4">
-        <input type="text" name="nom" class="form-control" placeholder="Nom de la section" required>
-      </div>
-      <div class="col-md-4">
-        <input type="text" name="chef" class="form-control" placeholder="Chef de section" required>
-      </div>
-      <div class="col-md-4">
-        <input type="text" name="localisation" class="form-control" placeholder="Localisation" required>
-      </div>
-      <div class="col-md-12 d-grid">
-        <button class="btn btn-primary">Ajouter</button>
-      </div>
-    </form>
+    <footer>© 2025 — Gestion des Sections | APC Zighoud Youcef</footer>
   </div>
 
-  <p class="text-center mt-4 opacity-75">© 2025 — Gestion des Sections | Interface moderne</p>
-
-  <script>
-    // ➕ AJOUT
-    document.getElementById('addForm').addEventListener('submit', async e => {
-      e.preventDefault();
-      const data = Object.fromEntries(new FormData(e.target).entries());
-      const res = await fetch('/section/add', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      if (res.ok) location.reload();
-    });
-
-    // 💾 MODIFICATION
-    document.querySelectorAll('.saveBtn').forEach(btn => {
-      btn.addEventListener('click', async e => {
-        const tr = e.target.closest('tr');
-        const id = tr.dataset.id;
-        const cells = tr.querySelectorAll('td');
-        const data = {
-          nom: cells[0].innerText,
-          chef: cells[1].innerText,
-          localisation: cells[2].innerText
-        };
-        const res = await fetch(`/section/edit/${id}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        if (res.ok) showToast("✅ Section mise à jour !");
-      });
-    });
-
-    // 🗑 SUPPRESSION
-    document.querySelectorAll('.deleteBtn').forEach(btn => {
-      btn.addEventListener('click', async e => {
-        if (!confirm("Supprimer cette section ?")) return;
-        const tr = e.target.closest('tr');
-        const id = tr.dataset.id;
-        const res = await fetch(`/section/delete/${id}`, { method: 'DELETE' });
-        if (res.ok) tr.remove();
-      });
-    });
-
-    // ✅ Toast notification
-    function showToast(msg) {
-      const toast = document.createElement('div');
-      toast.className = "toast align-items-center text-bg-success border-0 show position-fixed bottom-0 end-0 m-4";
-      toast.innerHTML = `
-        <div class="d-flex">
-          <div class="toast-body">${msg}</div>
-          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-        </div>`;
-      document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 3000);
-    }
-  </script>
-<!-- 🌙 SCRIPT MODE -->
+  <!-- 🌙 Mode clair/sombre -->
   <script>
     const toggleBtn = document.getElementById('toggleMode');
     const body = document.body;
-
-    if (localStorage.getItem('theme') === 'light') {
-      body.classList.add('light-mode');
-      toggleBtn.textContent = '🌙';
-    } else {
+    if (localStorage.getItem('theme') === 'dark') {
+      body.classList.add('dark-mode');
       toggleBtn.textContent = '☀️';
     }
-
     toggleBtn.addEventListener('click', () => {
-      body.classList.toggle('light-mode');
-      if (body.classList.contains('light-mode')) {
-        localStorage.setItem('theme', 'light');
-        toggleBtn.textContent = '🌙';
-      } else {
-        localStorage.setItem('theme', 'dark');
-        toggleBtn.textContent = '☀️';
-      }
+      body.classList.toggle('dark-mode');
+      const mode = body.classList.contains('dark-mode') ? 'dark' : 'light';
+      localStorage.setItem('theme', mode);
+      toggleBtn.textContent = mode === 'dark' ? '☀️' : '🌙';
     });
   </script>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
