@@ -12,7 +12,9 @@
       background-size: cover;
       min-height: 100vh;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+
+      align-items: right;
       justify-content: center;
       font-family: 'Poppins', sans-serif;
       animation: fadeIn 1s ease-in-out;
@@ -32,7 +34,7 @@
       border-radius: 20px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
       width: 100%;
-      max-width: 420px; /* ✅ plus large pour mobile */
+      max-width: 480px; /* ✅ plus large pour mobile */
       text-align: center;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       backdrop-filter: blur(8px);
@@ -102,7 +104,7 @@
   </style>
 </head>
 
-<body>
+<body >
   <div class="login-card shadow">
     <h2>🔐 Connexion</h2>
 
@@ -125,7 +127,7 @@
     </form>
   </div>
 
-  <footer>
+  <footer style="text-shadow:5px 5px 5px #0f172a; text-align: left;">
     © 2025 - Gestion du Matériel | A.P.C Zighoud Youcef
   </footer>
 </body>
