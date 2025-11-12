@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Historique');
 
-    // Colonnes
+    // ✅ Définir les colonnes, y compris "Opérateur"
     worksheet.columns = [
       { header: '#', key: 'index', width: 5 },
       { header: 'Désignation', key: 'designation', width: 30 },
@@ -20,10 +20,11 @@ router.get('/', async (req, res) => {
       { header: 'Section', key: 'section', width: 20 },
       { header: 'Opération', key: 'operation', width: 15 },
       { header: 'Date', key: 'date', width: 20 },
-      { header: 'Détails', key: 'details', width: 40 }
+      { header: 'Détails', key: 'details', width: 40 },
+      { header: 'Opérateur', key: 'operateur', width: 20 } // 👈 ajout colonne opérateur
     ];
 
-    // Ajouter les lignes
+    // ✅ Ajouter les lignes
     historiques.forEach((item, index) => {
       worksheet.addRow({
         index: index + 1,
@@ -31,12 +32,15 @@ router.get('/', async (req, res) => {
         qte: item.qte,
         section: item.section || '-',
         operation: item.operation,
-        date: item.date_operation.toLocaleString('fr-FR'),
-        details: item.details || '-'
+        date: item.date_operation
+          ? item.date_operation.toLocaleString('fr-FR')
+          : '-',
+        details: item.details || '-',
+        operateur: item.operateur || '—' // 👈 affiche opérateur
       });
     });
 
-    // Style header
+    // ✅ Style en-tête
     worksheet.getRow(1).eachCell((cell) => {
       cell.font = { bold: true };
       cell.alignment = { vertical: 'middle', horizontal: 'center' };
@@ -48,7 +52,7 @@ router.get('/', async (req, res) => {
       cell.font = { color: { argb: 'FFFFFFFF' }, bold: true }; // texte blanc
     });
 
-    // Envoyer le fichier Excel
+    // ✅ Envoyer le fichier Excel
     res.setHeader(
       'Content-Type',
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
