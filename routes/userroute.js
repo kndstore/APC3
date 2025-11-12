@@ -21,16 +21,6 @@ router.post('/login', async (req, res) => {
   res.redirect(`/materiel?nom=${user.nom}&role=${user.role}`);
 });
 
-// Pour créer un utilisateur test
-router.get('/create', async (req, res) => {
-  await User.create({
-    mle: '003',
-    nom: 'Admin3',
-    role: 'Administrateur',
-    username: 'admin3',
-    password: '12345'
-  });
-  res.send(`Utilisateur admin créé `);
-});
+
 
 module.exports = router;

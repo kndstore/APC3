@@ -1,10 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const Materiel = require('../models/materielmodel');
+const Historique = require('../models/historiquemodel');
+var NOMO='';
 const Stock = require('../models/stock');   // <-- ajouter ceci pour le modèle Stock
+
+
 // ✅ Afficher la liste du matériel
 router.get('/', async (req, res) => {
   const { nom, role } = req.query;
+  NOMO=nom;
   const materiels = await Materiel.find().sort({ date_entree: -1 });
   res.render('materiel', { materiels, nom, role });
 });
@@ -13,20 +18,20 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const { designation, qte, ns, position, section, date_entree } = req.body;
+    
 
-    // Chercher la désignation dans le stock
+    // 🔹 1. Chercher la désignation dans le stock
     const stockItem = await Stock.findOne({ designation });
     if (!stockItem) {
       return res.status(400).send('❌ Désignation non trouvée dans le stock');
     }
 
-    // Vérifier que la quantité demandée est disponible
-   // Vérifier que la quantité demandée est disponible
-if (Number(qte) > stockItem.qte) {
-  return res.status(400).send('Stock insuffisant !'); // message envoyé au front
-}
+    // 🔹 2. Vérifier la quantité disponible
+    if (Number(qte) > stockItem.qte) {
+      return res.status(400).send('Stock insuffisant !');
+    }
 
-    // Créer le matériel
+    // 🔹 3. Créer le matériel
     const materiel = new Materiel({
       designation,
       qte,
@@ -37,43 +42,83 @@ if (Number(qte) > stockItem.qte) {
     });
     await materiel.save();
 
-    // Diminuer la quantité dans le stock
+    // 🔹 4. Diminuer la quantité dans le stock
     stockItem.qte -= Number(qte);
     await stockItem.save();
 
-    res.status(200).send('✅ Matériel ajouté et stock mis à jour !');
+    // 🔹 5. Ajouter un enregistrement dans l'historique
+    const historique = new Historique({
+      designation,
+      qte,
+      section,
+      operation: 'Ajout', // ou 'Ajout' selon ton contexte
+      date_operation: new Date(),
+      details: `Matériel sorti vers la section ${section}`,
+      operateur:NOMO
+    });
+    await historique.save();
+
+    // 🔹 6. Réponse au client
+    res.status(200).send('✅ Matériel ajouté, stock mis à jour et historique enregistré !');
+
   } catch (err) {
     console.error(err);
     res.status(500).send('⚠️ Erreur serveur');
   }
 });
 
-// UPDATE
+
+
+// ✅ Route de mise à jour (UPDATE)
 router.put('/:id', async (req, res) => {
+      const { nom } = req.body; // 👈 récupère le nom envoyé du client
+console.log(NOMO);
+
   try {
     const updatedMateriel = await Materiel.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true, runValidators: true } // renvoie l'objet mis à jour + validation
+      { new: true, runValidators: true }
     );
-    
-    if (!updatedMateriel) return res.status(404).send({ message: "Matériel non trouvé" });
-    
-    res.send(updatedMateriel);
+
+    if (!updatedMateriel)
+      return res.status(404).send({ message: "Matériel non trouvé" });
+
+    const { designation, qte, section, date_entree } = updatedMateriel;
+
+    const historique = new Historique({
+      designation,
+      qte,
+      section,
+      operation: 'Modification',
+      details: `Modification du matériel ${designation} (quantité : ${qte}, section : ${section}, date entrée : ${date_entree ? new Date(date_entree).toLocaleDateString() : '—'})`,
+      operateur: NOMO || 'Inconnu'
+    });
+
+    await historique.save();
+
+    res.status(200).send({
+      message: "✅ Matériel mis à jour et historique enregistré",
+      materiel: updatedMateriel,
+    });
   } catch (err) {
-    console.error(err);
-    res.status(400).send({ message: "Erreur lors de la mise à jour", error: err });
+    console.error("❌ Erreur complète :", err);
+    res.status(500).send({ message: "Erreur lors de la mise à jour", error: err.message });
   }
 });
+
+
+
 
 
 // 🗑 Supprimer un matériel
 router.delete('/:id', async (req, res) => {
   try {
     const materiel = await Materiel.findById(req.params.id);
+    
+
     if (!materiel) return res.status(404).send('❌ Matériel introuvable');
 
-    // Ajouter la quantité supprimée au stock
     const stockItem = await Stock.findOne({ designation: materiel.designation });
     if (stockItem) {
       stockItem.qte += materiel.qte;
@@ -81,12 +126,27 @@ router.delete('/:id', async (req, res) => {
     }
 
     await Materiel.findByIdAndDelete(req.params.id);
-    res.status(200).send('🗑 Matériel supprimé et stock mis à jour !');
+
+    const historique = new Historique({
+      designation: materiel.designation,
+      qte: materiel.qte,
+      section: materiel.section,
+      operation: 'Suppression',
+      details: `Matériel supprimé de la section ${materiel.section}`,
+      operateur: NOMO || 'Inconnu'
+    });
+
+    await historique.save();
+
+    res.status(200).send('✅ Matériel supprimé et historique enregistré');
   } catch (err) {
-    console.error(err);
-    res.status(500).send('⚠️ Erreur serveur');
+    console.error("❌ Erreur complète :", err);
+    res.status(500).send({ message: "Erreur lors de la suppression", error: err.message });
   }
 });
+
+
+
 
 
 module.exports = router;

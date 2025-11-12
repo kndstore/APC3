@@ -5,6 +5,9 @@ const userRoute = require('./routes/userroute');
 const materielRoute = require('./routes/materielroute');
 const sectionRoute = require('./routes/sectionroute');
 const stockRoute = require('./routes/stock');
+const historiqueRoute = require('./routes/historiqueroute');
+const exportRoute = require('./routes/export');
+
 require('dotenv').config();
 
 const app = express();
@@ -29,9 +32,11 @@ app.use("/utilisateurs", utilisateurRoutes);
 
 app.use('/', userRoute);
 app.use('/materiel', materielRoute);
-
 app.use('/section', sectionRoute);
 app.use('/stock', stockRoute);
+app.use('/historique', historiqueRoute);
+app.use('/export', exportRoute);
+
 
 // Lancer serveur
 const PORT = 3000;
