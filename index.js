@@ -16,6 +16,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.set('view engine', 'ejs');
+
 // Servir les fichiers statiques
 app.use(express.static('public'));
 // Connexion MongoDB
@@ -36,6 +37,7 @@ app.use('/section', sectionRoute);
 app.use('/stock', stockRoute);
 app.use('/historique', historiqueRoute);
 app.use('/export', exportRoute);
+
 
 
 // Lancer serveur

@@ -144,8 +144,50 @@ router.delete('/:id', async (req, res) => {
     res.status(500).send({ message: "Erreur lors de la suppression", error: err.message });
   }
 });
+const PDFDocument = require('pdfkit');
+router.get('/export-pdf/:id', async (req, res) => {
+  try {
+    const materiel = await Materiel.findById(req.params.id);
+    if (!materiel) return res.status(404).send('Matériel non trouvé');
 
 
+    const doc = new PDFDocument({ margin: 50 });
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=decharge_${materiel._id}.pdf`);
+
+    doc.pipe(res);
+
+    // ---------------------- EN-TETE ----------------------
+    // Logo (optionnel, mettre le chemin correct)
+    // doc.image('public/images/ZY.png', 50, 20, { width: 50 });
+    
+    // Nom de l’APC ou titre
+    doc.fontSize(16).text('APC DE ZIGHOUD YOUCEF', { align: 'center' });
+    doc.fontSize(14).text('Décharge de Matériel', { align: 'center' });
+    doc.moveDown(2);
+
+    // ---------------------- CONTENU ----------------------
+    doc.fontSize(12);
+    doc.text(`Désignation : ${materiel.designation}`);
+    doc.text(`Quantité : ${materiel.qte}`);
+    doc.text(`N° Série : ${materiel.ns}`);
+    doc.text(`Position : ${materiel.position}`);
+    doc.text(`Section : ${materiel.section}`);
+    const dateEntree = materiel.date_entree ? materiel.date_entree.toISOString().split('T')[0] : 'N/A';
+    doc.text(`Date d'entrée : ${dateEntree}`);
+    doc.moveDown();
+    doc.text('Je soussigné(e), le bénéficiaire,..................................................... reconnais avoir reçu le matériel mentionné ci-dessus.', { align: 'justify' });
+    doc.moveDown(3);
+
+    // ---------------------- SIGNATURE ----------------------
+    doc.text('Signature du bénéficiaire : _________________________', { align: 'left' });
+
+    doc.end();
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Erreur lors de la génération du PDF');
+  }
+});
 
 
 
