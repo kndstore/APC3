@@ -276,7 +276,7 @@ body.light-mode footer { color: #475569; }
 
     <!-- 🧾 TABLE -->
     <div class="table-responsive">
-      <table class="table table-hover align-middle text-center">
+      <table class="table table-hover align-middle text-center" id="myTable">
         <thead>
           <tr>
             <th>Désignation</th>
@@ -757,6 +757,38 @@ document.getElementById('exportFiche').addEventListener('click', () => {
   });
 </script>
 
+<script>
+  
+  document.querySelectorAll('#myTable th').forEach((th, index) => {
+    th.style.cursor = 'pointer'; // Indicateur visuel
+    th.addEventListener('click', () => {
+      const table = th.closest('table');
+      const tbody = table.querySelector('tbody');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+
+      // Détecte si la colonne est numérique ou textuelle par le premier ligne
+      const isNumeric = !isNaN(rows[0].cells[index].textContent.trim());
+
+      // Trie ascendant/descendant alterné
+      let asc = th.asc !== true;
+      th.asc = asc;
+
+      rows.sort((a, b) => {
+        const cellA = a.cells[index].textContent.trim();
+        const cellB = b.cells[index].textContent.trim();
+
+        if (isNumeric) {
+          return asc ? cellA - cellB : cellB - cellA;
+        } else {
+          return asc ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+        }
+      });
+
+      // Remplace les lignes
+      rows.forEach(row => tbody.appendChild(row));
+    });
+  });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
