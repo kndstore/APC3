@@ -12,6 +12,70 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 <style>
+
+  /* Font moderne */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+
+
+
+/* 🌟 Conteneur flex */
+.d-flex {
+  gap: 2rem; /* espace entre les cartes */
+  flex-wrap: wrap;
+  justify-content: center; /* centre les cartes si espace libre */
+}
+
+/* 🌟 Cartes statistiques */
+.stat-card {
+  display: flex;flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+  
+  background: linear-gradient(135deg, #6a11cb, #2575fc); /* dégradé moderne */
+  color: #fff;
+  padding: 3px;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  width: 220px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+/* 🌟 Animation hover */
+.stat-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.3);
+}
+
+/* 🌟 Icones */
+.stat-icon {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* 🌟 Titres */
+.stat-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* 🌟 Valeurs */
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* 🌟 Responsive pour mobile */
+@media (max-width: 768px) {
+  .stat-card {
+    width: 100%;
+  }
+}
+
   * {
       font-family: "Nunito", sans-serif;
       font-optical-sizing: auto;
@@ -200,7 +264,7 @@ body.light-mode footer { color: #475569; }
       <ul class="navbar-nav align-items-center gap-2">
         <li ><p style="margin: 5px;">👋 <%= nom %> (<%= role %>)</p></li>
         
-        <li><a class="sss" href="/" style="border: 1px solid red;padding: 10px;border-radius: 10px;background: #0f172a;color: white;">← Déconnexion</a></li>
+        <li><a class="sss" href="/" style="border: 1px solid red;padding: 10px;border-radius: 10px;background: #0f172a;color: white;">Déconnexion</a></li>
       </ul>
     </div>
   </div>
@@ -208,6 +272,29 @@ body.light-mode footer { color: #475569; }
 
 <!-- 🔹 CONTENU -->
 <div class="container">
+  <div class="d-flex justify-content-evenly align-items-center flex-wrap">
+
+  <div class="stat-card">
+    <div class="stat-icon" style="margin: 2px;">🚨</div>
+    <h5 class="stat-title" style="margin: 2px;">En panne</h5>
+    <p class="stat-value" style="margin: 2px;"><%= totalPannes %></p>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon"style="margin: 2px;">📁</div>
+    <h5 class="stat-title"style="margin: 2px;">Sections</h5>
+    <p class="stat-value"style="margin: 2px;"><%= totalSection %></p>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon"style="margin: 2px;">📦</div>
+    <h5 class="stat-title"style="margin: 2px;">Articles</h5>
+    <p class="stat-value"style="margin: 2px;"><%= totalArticles %></p>
+  </div>
+
+</div>
+
+
   <div class="glass-card">
     <h4 class="text-center mb-4 text-success">📦 Liste du Matériel</h4>
 <!-- 🔹 Bouton qui défile vers le formulaire d’ajout -->

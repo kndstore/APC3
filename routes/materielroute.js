@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Materiel = require('../models/materielmodel');
 const Historique = require('../models/historiquemodel');
+const Section = require('../models/sectionmodel');
 var NOMO='';
 const Stock = require('../models/stock');   // <-- ajouter ceci pour le modèle Stock
 
@@ -11,7 +12,12 @@ router.get('/', async (req, res) => {
   const { nom, role } = req.query;
   NOMO=nom;
   const materiels = await Materiel.find().sort({ date_entree: -1 });
-  res.render('materiel', { materiels, nom, role });
+  const totalPannes = await Materiel.countDocuments({ position: "En panne" });
+  const totalSection = await Section.countDocuments();
+  const totalArticles = (await Materiel.distinct("designation")).length;
+
+  res.render('materiel', { materiels, nom, role, totalPannes , totalSection,totalArticles});
+
 });
 
 // ➕ Ajouter un matériel
