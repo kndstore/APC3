@@ -56,4 +56,18 @@ router.get('/designations', async (req, res) => {
     res.status(500).json({ error: 'Erreur serveur' });
   }
 });
+
+router.get('/check', async (req, res) => {
+  try {
+    const { designation } = req.query;
+    if (!designation) return res.status(400).json({ error: "Désignation manquante" });
+
+    const exists = await Stock.exists({ designation: { $regex: `^${designation}$`, $options: 'i' } });
+    res.json({ exists: !!exists });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
 module.exports = router;

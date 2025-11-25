@@ -1,162 +1,104 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gestion du Stock - APC Zighoud Youcef</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            nunito: ['Nunito', 'sans-serif'],
+            poppins: ['Poppins', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;900&family=Poppins:wght@300;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
- <link href="https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-<style>
-  * {
-      font-family: "Nunito", sans-serif;
-      font-optical-sizing: auto;
-      font-style: normal;
-    }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to right, #f0f4f8, #e2e8f0);
-      color: #1e293b;
-      min-height: 100vh;
-    }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
-    /* Navbar */
-    .navbar {
-      border-radius: 12px;
-      background: #1e293b;
-      margin-bottom: 2rem;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-    }
-
-    .navbar .btn {
-      border-radius: 8px;
-      font-weight: 500;
-    }
-
-    /* Glass card */
-    .glass-card {
-      background: rgba(255,255,255,0.85);
-      backdrop-filter: blur(12px);
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-      padding: 2rem;
-      transition: all 0.3s ease;
-    }
-    .glass-card:hover {
-      transform: translateY(-4px);
-    }
-
-    /* Table styling */
-    table {
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    th {
-      background-color: #3b82f6;
-      color: #fff;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    .table-hover tbody tr:hover {
-      background-color: rgba(59,130,246,0.1);
-      transition: 0.2s;
-    }
-
-    .btn {
-      border-radius: 10px;
-      transition: all 0.3s ease;
-    }
-
-    .btn-primary { background-color: #3b82f6; border: none; }
-    .btn-primary:hover { background-color: #2563eb; }
-
-    .btn-success { background-color: #10b981; border: none; }
-    .btn-success:hover { background-color: #059669; }
-
-    .btn-warning { background-color: #facc15; border: none; }
-    .btn-warning:hover { background-color: #eab308; }
-
-    .btn-danger { background-color: #ef4444; border: none; }
-    .btn-danger:hover { background-color: #dc2626; }
-
-    footer {
-      margin-top: 2rem;
-      text-align: center;
-      font-size: 0.85rem;
-      color: #475569;
-    }
-
-    h4 {
-      color: #1e3a8a;
-      font-weight: 600;
-    }
-  </style>
 </head>
-<body class="container py-4">
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-emerald-100 dark:from-zinc-900 dark:to-slate-900 font-nunito text-gray-900 dark:text-gray-100">
 
   <!-- Navbar -->
-  <nav class="navbar navbar-dark px-4 d-flex justify-content-between align-items-center">
-    <h5 class="text-light mb-0"><i class="fa-solid fa-boxes-stacked"></i> Gestion du Stock</h5>
-    <div class="d-flex gap-2">
-      <a href="/materiel?nom=<%= nom %>&role=<%= role %>" class="btn btn-primary btn-sm"><i class="fa-solid fa-house"></i> Accueil</a>
-      <a href="/" class="btn btn-danger btn-sm"><i class="fa-solid fa-right-from-bracket"></i> Déconnexion</a>
+  <nav class="flex items-center justify-between shadow-md px-8 py-4 bg-blue-900/95 dark:bg-zinc-900 rounded-b-2xl mb-10">
+    <h5 class="text-xl font-bold tracking-wide text-emerald-400 flex items-center gap-2">
+      <i class="fa-solid fa-boxes-stacked"></i>
+      Gestion du Stock
+    </h5>
+    <div class="flex gap-3">
+      <a href="/materiel?nom=<%= nom %>&role=<%= role %>"
+         class="bg-blue-600 hover:bg-blue-700 text-white transition px-4 py-2 rounded-lg font-semibold flex items-center gap-2 shadow">
+        <i class="fa-solid fa-house"></i> Accueil
+      </a>
+      <a href="/" class="bg-red-500 hover:bg-red-700 text-white transition px-4 py-2 rounded-lg font-semibold flex items-center gap-2 shadow">
+        <i class="fa-solid fa-right-from-bracket"></i> Déconnexion
+      </a>
     </div>
   </nav>
 
   <!-- Glass Card -->
-  <div class="glass-card">
-    <h4 class="text-center mb-4"><i class="fa-solid fa-warehouse"></i> Stock Matériel</h4>
-
-    <div class="text-end mb-3">
-      <button id="exportPDF" class="btn btn-warning btn-sm"><i class="fa-solid fa-file-pdf"></i> Exporter en PDF</button>
+  <div class="max-w-4xl mx-auto bg-white/80 dark:bg-zinc-800/70 rounded-2xl shadow-xl backdrop-blur-lg p-8">
+    <h4 class="text-center mb-6 font-bold text-2xl text-blue-700 dark:text-blue-300 flex items-center justify-center gap-2">
+      <i class="fa-solid fa-warehouse"></i> Stock Matériel
+    </h4>
+    <div class="flex justify-end mb-4">
+      <button id="exportPDF" class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-4 py-2 rounded-full shadow transition flex items-center gap-2">
+  <i class="fa-solid fa-file-pdf"></i> Exporter en PDF
+</button>
     </div>
 
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover align-middle text-center">
+    <div class="overflow-x-auto rounded-xl border">
+      <table class="min-w-full table-auto shadow bg-white/70 dark:bg-zinc-900 rounded-xl overflow-hidden">
         <thead>
-          <tr>
-            <th>Désignation</th>
-            <th>Quantité</th>
-            <th>Actions</th>
+          <tr class="bg-blue-600 dark:bg-blue-800 text-white">
+            <th class="px-6 py-3 text-base font-bold uppercase tracking-wider">Désignation</th>
+            <th class="px-6 py-3 text-base font-bold uppercase tracking-wider">Quantité</th>
+            <th class="px-6 py-3 text-base font-bold uppercase tracking-wider">Actions</th>
           </tr>
         </thead>
         <tbody>
           <% materiels.forEach(m => { %>
-            <tr data-id="<%= m._id %>">
-              <td contenteditable="true"><%= m.designation %></td>
-              <td contenteditable="true"><%= m.qte %></td>
-              <td>
-                <button class="btn btn-warning btn-sm editBtn"><i class="fa-solid fa-floppy-disk"></i></button>
-                <button class="btn btn-danger btn-sm deleteBtn"><i class="fa-solid fa-trash"></i></button>
+            <tr data-id="<%= m._id %>" class="hover:bg-blue-100 dark:hover:bg-emerald-900/30 transition border-b dark:border-zinc-800">
+              <td contenteditable="true" class="px-6 py-3"><%= m.designation %></td>
+              <td contenteditable="true" class="px-6 py-3"><%= m.qte %></td>
+              <td class="px-6 py-3 flex justify-center gap-2">
+                <button class="bg-yellow-400 hover:bg-yellow-600 text-black font-bold px-4 py-2 rounded-full shadow editBtn transition flex items-center gap-1">
+  Modification
+</button>
+
+                <button class="bg-red-500 hover:bg-red-700 text-white px-4 py-2 font-bold rounded-full shadow deleteBtn transition flex items-center gap-1">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
               </td>
             </tr>
           <% }) %>
         </tbody>
       </table>
     </div>
+    <hr class="my-8 border-blue-200 dark:border-zinc-700">
 
-    <hr>
-
-    <h5 class="mb-3"><i class="fa-solid fa-plus"></i> Ajouter un matériel</h5>
-    <form id="addForm" class="row g-3">
-      <div class="col-md-6 col-lg-5">
-        <input class="form-control" name="designation" placeholder="Désignation" required>
-      </div>
-      <div class="col-md-3 col-lg-2">
-        <input class="form-control" type="number" name="qte" placeholder="Quantité" required>
-      </div>
-      <div class="col-md-3 col-lg-3 d-grid">
-        <button class="btn btn-success"><i class="fa-solid fa-plus"></i> Ajouter</button>
-      </div>
+    <h5 class="mb-4 text-lg font-bold text-blue-700 dark:text-emerald-300 flex items-center gap-2">
+      <i class="fa-solid fa-plus"></i> Ajouter un matériel
+    </h5>
+    <form id="addForm" class="flex flex-col md:flex-row md:gap-3 gap-2 items-center justify-center">
+<input class="p-3 rounded-xl border border-blue-300 focus:ring-2 focus:ring-blue-500 w-full md:w-2/5 text-black" 
+       name="designation" placeholder="Désignation" required id="designationInput">
+      <input class="p-3 rounded-xl border border-blue-300 focus:ring-2 focus:ring-blue-500 w-full md:w-1/4 text-black" type="number" min="0" name="qte" placeholder="Quantité" required>
+      <button class="bg-emerald-500 hover:bg-emerald-700 text-white font-bold p-3 rounded-xl shadow transition flex items-center gap-1 w-full md:w-auto justify-center">
+        <i class="fa-solid fa-plus"></i> Ajouter
+      </button>
     </form>
   </div>
 
-  <footer>
+  <footer class="text-center py-6 text-zinc-400 text-sm mt-10">
     © 2025 — Gestion du Stock | A.P.C Zighoud Youcef
   </footer>
 
@@ -165,10 +107,13 @@
     document.getElementById('addForm').addEventListener('submit', async e => {
       e.preventDefault();
       const data = Object.fromEntries(new FormData(e.target).entries());
-      const res = await fetch('/stock/add', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data)});
+      const res = await fetch('/stock/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
       if(res.ok) location.reload();
     });
-
     // 💾 MODIF
     document.querySelectorAll('.editBtn').forEach(btn => {
       btn.addEventListener('click', async e => {
@@ -176,11 +121,14 @@
         const id = tr.dataset.id;
         const cells = tr.querySelectorAll('td');
         const data = { designation: cells[0].innerText, qte: cells[1].innerText };
-        const res = await fetch(`/stock/edit/${id}`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data)});
+        const res = await fetch(`/stock/edit/${id}`, {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(data)
+        });
         if(res.ok) alert("✅ Stock modifié avec succès");
       });
     });
-
     // 🗑 SUPP
     document.querySelectorAll('.deleteBtn').forEach(btn => {
       btn.addEventListener('click', async e => {
@@ -191,31 +139,72 @@
         if(res.ok) tr.remove();
       });
     });
+   
 
-    // 📄 EXPORT PDF
-    document.getElementById("exportPDF").addEventListener("click", () => {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({ orientation:"landscape", unit:"pt", format:"a4" });
-      doc.setFontSize(18);
-      doc.text("Liste du Stock - APC Zighoud Youcef", 40, 50);
-      const today = new Date().toLocaleDateString();
-      doc.setFontSize(10);
-      doc.text(`Exporté le ${today}`, 40, 70);
-      const rows = [];
-      document.querySelectorAll("table tbody tr").forEach(tr=>{
-        const tds = tr.querySelectorAll("td");
-        rows.push([tds[0].innerText.trim(), tds[1].innerText.trim()]);
-      });
-      doc.autoTable({
-        startY: 90,
-        head:[["Désignation","Quantité"]],
-        body:rows,
-        theme:"grid",
-        styles:{halign:"center",valign:"middle",fontSize:11},
-        headStyles:{fillColor:[59,130,246],textColor:255,fontStyle:"bold"},
-      });
-      doc.save("Stock_APC_Zighoud_Youcef.pdf");
-    });
-  </script>
+ </script>
+ <script>
+   // 📄 EXPORT PDF
+    
+ document.getElementById("exportPDF").addEventListener("click", () => {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
+
+  // Titre du PDF
+  doc.setFontSize(18);
+  doc.setTextColor(36, 153, 255);
+  doc.text("Stock Matériel — APC Zighoud Youcef", 40, 50);
+
+  // Sous-titre avec la date
+  const today = new Date().toLocaleDateString('fr-DZ');
+  doc.setFontSize(10);
+  doc.setTextColor(80, 80, 80);
+  doc.text(`Exporté le ${today}`, 40, 70);
+
+  // Préparer les lignes du tableau
+  const rows = [];
+  document.querySelectorAll("table tbody tr").forEach(tr => {
+    const tds = tr.querySelectorAll("td");
+    rows.push([
+      tds[0].innerText.trim(), // Désignation
+      tds[1].innerText.trim(), // Quantité
+    ]);
+  });
+
+  // Table automatique
+  doc.autoTable({
+    startY: 90,
+    head: [["Désignation", "Quantité"]],
+    body: rows,
+    theme: "grid",
+    styles: { halign: "center", valign: "middle", fontSize: 11 },
+    headStyles: { fillColor: [36, 153, 255], textColor: 255, fontStyle: "bold" },
+    alternateRowStyles: { fillColor: [245, 245, 245] },
+    tableLineColor: [59, 130, 246],
+    tableLineWidth: 0.5,
+  });
+
+  doc.save("Stock_APC_Zighoud_Youcef.pdf");
+});
+ </script>
+
+ <script>
+ document.getElementById('designationInput').addEventListener('change', async e => {
+  const value = e.target.value.trim();
+  if (!value) return;
+  
+  // Appel API pour vérifier existence
+  const res = await fetch(`/stock/check?designation=${encodeURIComponent(value)}`);
+  if (res.ok) {
+    const json = await res.json();
+    if (json.exists) {
+      alert("⚠️ Cette désignation existe déjà dans le stock.");
+      e.target.value = "";           // facultatif : effacer la saisie
+      e.target.focus();              // repositionner le curseur
+    }
+  } else {
+    console.error("Erreur lors de la vérification");
+  }
+});
+</script>
 </body>
 </html>

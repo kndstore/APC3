@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestion du Matériel - APC Zighoud Youcef</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: {} }
+    }
+  </script>
+</head>
+<body class="bg-gradient-to-br from-slate-900 to-emerald-800 dark:bg-gradient-to-br dark:from-zinc-900 dark:to-slate-900 min-h-screen text-gray-100 font-[Nunito]">
+
+  <!-- Navbar -->
+  <nav class="px-8 py-4 flex justify-between items-center bg-black/70 backdrop-blur-md border-b border-emerald-600">
+    <div class="font-bold tracking-wide text-emerald-400 text-lg">
+      APC Zighoud Youcef
+    </div>
+    <ul class="flex gap-4">
+      <li>
+        <a class="rounded-lg px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold transition" 
+            href="/materiel?nom=<%= nom %>&role=<%= role %>">
+          🏠 Accueil
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- CARD TABLE -->
+  <div class="max-w-6xl mx-auto mt-12 mb-10 bg-white/10 dark:bg-zinc-800/70 rounded-2xl shadow-xl backdrop-blur-lg p-8">
+    <h4 class="text-center text-emerald-400 text-2xl font-semibold mb-6">📦 Liste du Matériel non validé</h4>
+    
+    <!-- TABLE -->
+    <div class="overflow-x-auto rounded-xl shadow-lg">
+      <table class="min-w-full table-auto bg-transparent">
+        <thead>
+          <tr class="bg-emerald-900/90 text-white">
+            <th class="px-6 py-3 font-semibold rounded-tl-xl">Désignation</th>
+            <th class="px-6 py-3 font-semibold">Qté</th>
+            <th class="px-6 py-3 font-semibold">N° Série</th>
+            <th class="px-6 py-3 font-semibold">État</th>
+            <th class="px-6 py-3 font-semibold">Section</th>
+            <th class="px-6 py-3 font-semibold">Date d'entrée</th>
+            <th class="px-6 py-3 font-semibold">Validation</th>
+            <th class="px-6 py-3 font-semibold rounded-tr-xl">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="materielTable">
+          <% materiels.forEach(m => { if (m.validation === "N") { %>
+          <tr class="hover:bg-emerald-950/30 text-white transition"
+           data-id="<%= m._id %>">
+            <td class="px-6 py-4"><%= m.designation %></td>
+            <td class="px-6 py-4"><%= m.qte %></td>
+            <td class="px-6 py-4"><%= m.ns %></td>
+            <td class="px-6 py-4"><%= m.position %></td>
+            <td class="px-6 py-4"><%= m.section %></td>
+            <td class="px-6 py-4"><%= m.date_entree ? m.date_entree.toISOString().split('T')[0] : '' %></td>
+            <td class="px-6 py-4" contenteditable="true"><%= m.validation %></td>
+              
+            
+            <td class="px-6 py-4">
+              <button class="bg-yellow-400 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-full shadow-lg transition editBtn">
+                💾
+              </button>
+               <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full shadow-lg transition deleteBtn">
+                🗑️
+              </button>
+            </td>
+             
+
+   
+
+          </tr>
+          <% }}); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="text-center py-6 text-zinc-400 text-sm">
+    © 2025 — APC Zighoud Youcef | Gestion du Matériel
+  </footer>
+
+<!-- EDIT JS -->
+<script>
+document.querySelectorAll('.editBtn').forEach(btn => {
+  btn.addEventListener('click', async (e) => {
+    const row = e.target.closest('tr');
+    const id = row.dataset.id;
+    const data = {
+      designation: row.children[0].textContent.trim(),
+      qte: Number(row.children[1].textContent.trim()),
+      ns: row.children[2].textContent.trim(),
+      position: row.children[3].textContent.trim(),
+      section: row.children[4].textContent.trim(),
+      date_entree: row.children[5].textContent.trim(),
+      validation: row.children[6].textContent.trim()
+    };
+
+    try {
+      const res = await fetch(`/materiel/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (res.ok) alert('✅ Matériel mis à jour !');
+      else alert('❌ Erreur lors de la mise à jour');
+    } catch (err) {
+      alert('⚠️ Erreur réseau');
+    }
+  });
+});
+</script>
+
+<script>
+document.querySelectorAll('.deleteBtn').forEach(btn => {
+  btn.addEventListener('click', async (e) => {
+    const row = e.target.closest('tr');
+    const id = row.dataset.id;
+    if (!confirm("❗ Voulez-vous vraiment supprimer ce matériel ?")) return;
+
+    try {
+      const res = await fetch(`/materiel/${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        row.remove(); // Supprime la ligne du DOM !
+        alert('🗑️ Matériel supprimé ; Stock mis à jour.');
+      } else {
+        const errorText = await res.text();
+        alert('❌ Suppression impossible :\n' + errorText);
+      }
+    } catch (err) {
+      alert('⚠️ Erreur réseau');
+    }
+  });
+});
+
+</script>
+</body>
+</html>

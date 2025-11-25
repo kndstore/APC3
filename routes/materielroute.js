@@ -11,7 +11,7 @@ const Stock = require('../models/stock');   // <-- ajouter ceci pour le modèle 
 router.get('/', async (req, res) => {
   const { nom, role } = req.query;
   NOMO=nom;
-  const materiels = await Materiel.find().sort({ date_entree: -1 });
+  const materiels = await Materiel.find({ validation: 'Y' }).sort({ date_entree: -1 });
   const totalPannes = await Materiel.countDocuments({ position: "En panne" });
   const totalSection = await Section.countDocuments();
   const totalArticles = (await Materiel.distinct("designation")).length;
@@ -23,8 +23,8 @@ router.get('/', async (req, res) => {
 // ➕ Ajouter un matériel
 router.post('/', async (req, res) => {
   try {
-    const { designation, qte, ns, position, section, date_entree } = req.body;
-    
+    const { designation, qte, ns, position, section, date_entree,validation } = req.body;
+  
 
     // 🔹 1. Chercher la désignation dans le stock
     const stockItem = await Stock.findOne({ designation });
@@ -44,7 +44,8 @@ router.post('/', async (req, res) => {
       ns,
       position,
       section,
-      date_entree
+      date_entree,
+      validation
     });
     await materiel.save();
 

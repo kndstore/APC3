@@ -6,7 +6,8 @@ const materielSchema = new mongoose.Schema({
   ns: { type: String, required: true },
   position: { type: String, required: true },
   section: { type: String, required: true },
-  date_entree: { type: Date, required: true }
+  date_entree: { type: Date, required: true },
+  validation: { type: String, required: true }
 });
 
 module.exports = mongoose.model('Materiel', materielSchema);

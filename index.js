@@ -7,15 +7,16 @@ const sectionRoute = require('./routes/sectionroute');
 const stockRoute = require('./routes/stock');
 const historiqueRoute = require('./routes/historiqueroute');
 const exportRoute = require('./routes/export');
+const validationRoute = require("./routes/validationroute");
 
 require('dotenv').config();
 
-const app = express();
+const app = express();;
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.set('view engine', 'ejs');
+app.set('view engine',  'ejs');
 
 // Servir les fichiers statiques
 app.use(express.static('public'));
@@ -38,6 +39,7 @@ app.use('/stock', stockRoute);
 app.use('/historique', historiqueRoute);
 app.use('/export', exportRoute);
 
+app.use("/validation", validationRoute);
 
 
 // Lancer serveur

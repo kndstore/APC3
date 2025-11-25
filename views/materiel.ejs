@@ -296,6 +296,7 @@ if ("serviceWorker" in navigator) {
           <li><a class="btnnav-link" href="/stock?nom=<%= nom %>&role=<%= role %>">📦 Stock</a></li>
           <li><a class="btnnav-link" href="/utilisateurs?nom=<%= nom %>&role=<%= role %>">👥 Utilisateurs</a></li>
           <li><a class="btnnav-link" href="/historique?nom=<%= nom %>&role=<%= role %>">👥 Historique</a></li>
+          <li><a class="btnnav-link" href="/validation?nom=<%= nom %>&role=<%= role %>">✅ Validation</a></li>
 
           <% } %>
       </ul>
@@ -495,6 +496,9 @@ if ("serviceWorker" in navigator) {
 
       <div class="col-md-4">
 <input class="form-control" type="date" name="date_entree" id="date_entree" required>
+      </div>
+      <div class="col-md-4">
+<input class="form-control" type="hidden" name="validation" id="validation" required value="N">
       </div>
       <div class="col-md-4 d-grid">
         <button class="btn btn-success">Ajouter</button>

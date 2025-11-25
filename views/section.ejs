@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
  <link href="https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 <style>
+  
   * {
       font-family: "Nunito", sans-serif;
       font-optical-sizing: auto;
@@ -131,7 +132,7 @@
     footer { text-align: center; margin-top: 2rem; color: #64748b; }
     body.dark-mode footer { color: #94a3b8; }
   </style>
-</head>
+
 <body>
 
   <!-- 🌟 Navbar -->
@@ -163,66 +164,115 @@
   </nav>
 
   <!-- 🌟 Contenu -->
-  <div class="container">
-    <div class="card-3d mb-4">
-      <h3 class="mb-4 text-center fw-bold" style="color:#ef4444">🏷️ Gestion des Sections</h3>
+ <body>
 
-      <div class="table-responsive">
-        <table class="table table-hover text-center align-middle">
-          <thead>
-            <tr>
-              <th>Nom de la Section</th>
-              <th>Chef de Section</th>
-              <th>Localisation</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% sections.forEach(s => { %>
-              <tr data-id="<%= s._id %>">
-                <td contenteditable="true"><%= s.nom %></td>
-                <td contenteditable="true"><%= s.chef %></td>
-                <td contenteditable="true"><%= s.localisation %></td>
-                <td>
-                  <button class="btn btn-success btn-sm saveBtn">💾</button>
-                  <button class="btn btn-danger btn-sm deleteBtn">🗑</button>
-                </td>
-              </tr>
-            <% }) %>
-          </tbody>
-        </table>
-      </div>
+<!-- 🌟 Navbar -->
+<nav class="navbar navbar-expand-lg shadow-sm">
+  <a class="navbar-brand d-flex align-items-center" href="#">
+    <img src="/images/ZY.png" alt="Logo APC">
+    <span style="color: gold;text-shadow:5px 5px 5px #1e293b;">APC ZIGHOUD Youcef</span>
+  </a>
 
-      <hr class="my-4">
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-      <!-- Formulaire ajout -->
-      <h5 class="mb-3 fw-semibold text-success">➕ Ajouter une Section</h5>
-      <form id="addForm" class="row g-3" method="POST" action="/section/add">
-        
+  <div class="collapse navbar-collapse justify-content-end" id="mainNav">
+    <ul class="navbar-nav align-items-center gap-2">
+      <li class="nav-item"><a class="nav-link" href="/materiel?nom=<%= nom %>&role=<%= role %>">🏠 Accueil</a></li>
+      <li class="nav-item"><a class="nav-link" href="/section?nom=<%= nom %>&role=<%= role %>">📁 Sections</a></li>
 
-<div class="col-md-4">
-  <input list="sectionsList" id="nomSectionInput" name="nom" class="form-control" placeholder="Nom de la section" required>
-  <datalist id="sectionsList">
-    <% sections.forEach(s => { %>
-      <option value="<%= s.nom %>"></option>
-    <% }) %>
-  </datalist>
+      <% if(role==='Administrateur'){ %>
+        <li class="nav-item"><a class="nav-link" href="/stock?nom=<%= nom %>&role=<%= role %>">📦 Stock</a></li>
+      <% } %>
+
+      <li class="nav-item">
+        <button id="toggleMode" class="btn btn-sm btn-toggle">🌙</button>
+      </li>
+
+      <li class="nav-item">
+        <a href="/" class="logout btn btn-sm" style="background:#1e293b;">← Déconnexion</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<!-- 🌟 Page Container -->
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-10">
+
+      <div class="card-3d mb-4">
+
+        <!-- Formulaire -->
+        <h5 class="mb-3 fw-semibold text-success">➕ Ajouter une Section</h5>
+        <form id="addForm" class="row g-3" method="POST" action="/section/add">
+
+          <div class="col-12 col-md-4">
+            <input list="sectionsList" id="nomSectionInput" name="nom" class="form-control" placeholder="Nom de la section" required>
+            <datalist id="sectionsList">
+              <% sections.forEach(s => { %>
+                <option value="<%= s.nom %>"></option>
+              <% }) %>
+            </datalist>
+          </div>
+
+          <div class="col-md-4 col-12">
+            <input type="text" name="chef" class="form-control" placeholder="Chef de section" required>
+          </div>
+
+          <div class="col-md-4 col-12">
+            <input type="text" name="localisation" class="form-control" placeholder="Localisation" required>
+          </div>
+
+          <div class="col-12 d-grid">
+            <button class="btn btn-success fw-bold">Ajouter</button>
+          </div>
+        </form>
+
+
+        <!-- Table -->
+        <h3 class="mb-4 text-center fw-bold" style="color:#ef4444">🏷️ Gestion des Sections</h3>
+
+       <div class="table-responsive overflow-auto">
+  <table class="table table-hover text-center align-middle">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Chef</th>
+        <th>Localisation</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% sections.forEach(s => { %>
+      <tr data-id="<%= s._id %>">
+        <td contenteditable="true"><%= s.nom %></td>
+        <td contenteditable="true"><%= s.chef %></td>
+        <td contenteditable="true"><%= s.localisation %></td>
+        <td class="d-flex gap-2 justify-content-center flex-wrap">
+          <button class="btn btn-success btn-sm saveBtn">💾</button>
+          <button class="btn btn-danger btn-sm deleteBtn">🗑</button>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
 </div>
 
-        <div class="col-md-4">
-          <input type="text" name="chef" class="form-control" placeholder="Chef de section" required>
-        </div>
-        <div class="col-md-4">
-          <input type="text" name="localisation" class="form-control" placeholder="Localisation" required>
-        </div>
-        <div class="col-md-12 d-grid">
-          <button class="btn btn-success">Ajouter</button>
-        </div>
-      </form>
-    </div>
 
-    <footer>© 2025 — Gestion des Sections | APC Zighoud Youcef</footer>
+        <hr class="my-4">
+      </div>
+
+      <footer class="text-center pt-3 pb-3">
+        © 2025 — Gestion des Sections | APC Zighoud Youcef
+      </footer>
+
+    </div>
   </div>
+</div>
+
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   
@@ -298,5 +348,7 @@
     }
   });
 </script>
+
+  
 </body>
 </html>
