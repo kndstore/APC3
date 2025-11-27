@@ -80,10 +80,10 @@
 }
 
 /* 🌟 Responsive pour mobile */
-@media (max-width: 768px) {
-  .stat-card {
-    width: 100%;
-  }
+@media (max-width: 1100px) {
+ 
+  #adm{font-size: 16px;color: yellow;}
+  body{zoom: 1.3;}
 }
 
   * {
@@ -116,7 +116,7 @@ body {
   background: linear-gradient(135deg, #052e16, #0f172a);
   color: var(--dark-text);
   padding-top: 80px; 
-  height: 100vh;
+  
   transition: all 0.3s ease;
 }
 body.light-mode {
@@ -244,26 +244,7 @@ footer {
 }
 body.light-mode footer { color: #475569; }
 
-/* 🖥️ PC normal (≥1100px) */
-@media (min-width: 1100px) {
-    body {
-        zoom: 1;
-    }
-}
 
-/* 📱 Mobiles + Tablettes (≤1100px) */
-@media (max-width: 1100px) {
-    body {
-        zoom: 1.25; /* augmente la taille */
-    }
-}
-
-/* 📱 Très petits téléphones (≤480px) */
-@media (max-width: 480px) {
-    body {
-        zoom: 1.35; /* encore plus large pour lecture */
-    }
-}
 
 
 </style>
@@ -281,10 +262,13 @@ if ("serviceWorker" in navigator) {
   <div class="container-fluid">
     <a class="navbar-brand d-flex align-items-center" href="#">
       <img src="/images/ZY.png" alt="Logo APC" width="40" height="40" class="me-2 rounded-circle shadow-sm">
+      <p id="adm" style="margin: 5px;font-size:12px ;">👋 <%= nom %> (<%= role %>)</p>
+
     </a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" style="background-color: #16a34a;">
-      <span class="navbar-toggler-icon"></span>
+      <span class="navbar-toggler-icon">    
+      </span>
     </button>
 
     <div class="collapse navbar-collapse justify-content-between" id="mainNav">
@@ -302,7 +286,7 @@ if ("serviceWorker" in navigator) {
       </ul>
 
       <ul class="navbar-nav align-items-center gap-2">
-        <li ><p style="margin: 5px;">👋 <%= nom %> (<%= role %>)</p></li>
+        
         
         <li><a class="sss" href="/" style="border: 1px solid red;padding: 10px;border-radius: 10px;background: #0f172a;color: white;">Déconnexion</a></li>
       </ul>
