@@ -3,6 +3,8 @@ const router = express.Router();
 const Materiel = require('../models/materielmodel');
 const Historique = require('../models/historiquemodel');
 const Section = require('../models/sectionmodel');
+const Nombre = require('../models/nbrmodel');
+
 var NOMO='';
 const Stock = require('../models/stock');   // <-- ajouter ceci pour le modèle Stock
 
@@ -15,8 +17,9 @@ router.get('/', async (req, res) => {
   const totalPannes = await Materiel.countDocuments({ position: "En panne" });
   const totalSection = await Section.countDocuments();
   const totalArticles = (await Materiel.distinct("designation")).length;
+  const somme = await Nombre.countDocuments();
 
-  res.render('materiel', { materiels, nom, role, totalPannes , totalSection,totalArticles});
+  res.render('materiel', { materiels, nom, role, totalPannes , totalSection,totalArticles,somme});
 
 });
 
