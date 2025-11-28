@@ -236,7 +236,16 @@ body.light-mode footer { color: #475569; }
   
 }
 
-.container{width: 100%;margin: 3px;}
+.container {
+  width: 100%;
+  max-width: 100%;    /* يمنع التضييق */
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 8px;  /* أو 0 لو تريد ملاصق للحافة */
+  padding-right: 8px;
+}
+
+
 .stats-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -308,13 +317,13 @@ if ("serviceWorker" in navigator) {
 
 <!-- 🔹 NAVBAR FIXE -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
-  <div class="container-fluid" style="width: 100%;">
+  <div class="container-fluid" style="width: 100%; font-size: large;">
     <a class="navbar-brand d-flex align-items-center" href="#">
       <img src="/images/ZY.png" alt="Logo APC" width="40" height="40" class="me-2 rounded-circle shadow-sm">
 
     </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" style="background-color: #16a34a;">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" style="background-color: #16a34a;font-size: large;">
       <span class="navbar-toggler-icon">    
       </span>
     </button>
@@ -323,14 +332,14 @@ if ("serviceWorker" in navigator) {
            <p id="adm" style="margin: 5px;font-size:12px ;">👋 <%= nom %> (<%= role %>)</p>
 
       <ul class="navbar-nav align-items-center gap-2">
-        <li><a class="btnnav-link" href="/materiel?nom=<%= nom %>&role=<%= role %>">🏠 Accueil</a></li>
+        <li><a class="btnnav-link" href="/materiel?nom=<%= nom %>&role=<%= role %>" style="font-size: large;">🏠 Accueil</a></li>
       
         <% if (role === 'Administrateur') { %>
-          <li><a class="btnnav-link" href="/section?nom=<%= nom %>&role=<%= role %>">📁 Sections</a></li>
-          <li><a class="btnnav-link" href="/stock?nom=<%= nom %>&role=<%= role %>">📦 Stock</a></li>
-          <li><a class="btnnav-link" href="/utilisateurs?nom=<%= nom %>&role=<%= role %>">👥 Utilisateurs</a></li>
-          <li><a class="btnnav-link" href="/historique?nom=<%= nom %>&role=<%= role %>">👥 Historique</a></li>
-          <li><a class="btnnav-link" href="/validation?nom=<%= nom %>&role=<%= role %>">✅ Validation</a></li>
+          <li><a class="btnnav-link" href="/section?nom=<%= nom %>&role=<%= role %>" style="font-size: large;">📁 Sections</a></li>
+          <li><a class="btnnav-link" href="/stock?nom=<%= nom %>&role=<%= role %>" style="font-size: large;">📦 Stock</a></li>
+          <li><a class="btnnav-link" href="/utilisateurs?nom=<%= nom %>&role=<%= role %>" style="font-size: large;">👥 Utilisateurs</a></li>
+          <li><a class="btnnav-link" href="/historique?nom=<%= nom %>&role=<%= role %>" style="font-size: large;">👥 Historique</a></li>
+          <li><a class="btnnav-link" href="/validation?nom=<%= nom %>&role=<%= role %>" style="font-size: large;">✅ Validation</a></li>
 
           <% } %>
       </ul>
@@ -339,7 +348,7 @@ if ("serviceWorker" in navigator) {
         
         
 <form action="/delete-first" method="POST" style="display: inline;" >
-  <button type="submit" class="btn btn-warning">Deconnexion</button>
+  <button type="submit" class="btn btn-warning" style="font-size: large;">Deconnexion</button>
 </form>      </ul>
     </div>
   </div>
