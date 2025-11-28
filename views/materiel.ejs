@@ -64,7 +64,7 @@
 * {
   font-family: "Roboto", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 900;
+  font-weight: 600;
   font-style: normal;
   font-variation-settings:"wdth" 100;
     font-size: x-large;
@@ -258,7 +258,8 @@ body.light-mode footer { color: #475569; }
   max-width: 260px;
   background: radial-gradient(circle at top left, #22c55e 0, #1a4b04 55%);
   border-radius: 18px;
-  padding: 14px 16px;
+  padding: 5px;
+  margin: 5px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -329,17 +330,17 @@ if ("serviceWorker" in navigator) {
     </button>
 
     <div class="collapse navbar-collapse justify-content-between" id="mainNav">
-           <p id="adm" style="margin: 5px;font-size:12px ;">👋 <%= nom %> (<%= role %>)</p>
+           <p id="adm" style="margin: 5px;font-size:12px ;"> <%= nom %> (<%= role %>)</p>
 
       <ul class="navbar-nav align-items-center gap-2">
-        <li><a class="btnnav-link" href="/materiel?nom=<%= nom %>&role=<%= role %>" style="font-size: large;">🏠 Accueil</a></li>
+        <li><a class="btnnav-link" href="/materiel?nom=<%= nom %>&role=<%= role %>" style="font-size: large;"> Accueil</a></li>
       
         <% if (role === 'Administrateur') { %>
-          <li><a class="btnnav-link" href="/section?nom=<%= nom %>&role=<%= role %>" style="font-size: large;">📁 Sections</a></li>
-          <li><a class="btnnav-link" href="/stock?nom=<%= nom %>&role=<%= role %>" style="font-size: large;">📦 Stock</a></li>
-          <li><a class="btnnav-link" href="/utilisateurs?nom=<%= nom %>&role=<%= role %>" style="font-size: large;">👥 Utilisateurs</a></li>
-          <li><a class="btnnav-link" href="/historique?nom=<%= nom %>&role=<%= role %>" style="font-size: large;">👥 Historique</a></li>
-          <li><a class="btnnav-link" href="/validation?nom=<%= nom %>&role=<%= role %>" style="font-size: large;">✅ Validation</a></li>
+          <li><a class="btnnav-link" href="/section?nom=<%= nom %>&role=<%= role %>" style="font-size:medium;"> Sections</a></li>
+          <li><a class="btnnav-link" href="/stock?nom=<%= nom %>&role=<%= role %>" style="font-size: medium;"> Stock</a></li>
+          <li><a class="btnnav-link" href="/utilisateurs?nom=<%= nom %>&role=<%= role %>" style="font-size: medium;"> Utilisateurs</a></li>
+          <li><a class="btnnav-link" href="/historique?nom=<%= nom %>&role=<%= role %>" style="font-size: medium;"> Historique</a></li>
+          <li><a class="btnnav-link" href="/validation?nom=<%= nom %>&role=<%= role %>" style="font-size: medium;"> Validation</a></li>
 
           <% } %>
       </ul>
@@ -363,7 +364,7 @@ if ("serviceWorker" in navigator) {
     <div class="stat-icon">🚨</div>
     <div class="stat-text">
       <h5 class="stat-title">En panne</h5>
-      <p class="stat-value"><%= totalPannes %></p>
+      <p class="stat-value " style="text-align: center;"><%= totalPannes %></p>
     </div>
   </div>
 
@@ -371,7 +372,7 @@ if ("serviceWorker" in navigator) {
     <div class="stat-icon">📁</div>
     <div class="stat-text">
       <h5 class="stat-title">Sections</h5>
-      <p class="stat-value"><%= totalSection %></p>
+      <p class="stat-value" style="text-align: center;"><%= totalSection %></p>
     </div>
   </div>
 
@@ -379,7 +380,7 @@ if ("serviceWorker" in navigator) {
     <div class="stat-icon">📦</div>
     <div class="stat-text">
       <h5 class="stat-title">Articles</h5>
-      <p class="stat-value"><%= totalArticles %></p>
+      <p class="stat-value" style="text-align: center;"><%= totalArticles %></p>
     </div>
   </div>
 
@@ -387,7 +388,7 @@ if ("serviceWorker" in navigator) {
     <div class="stat-icon">👥</div>
     <div class="stat-text">
       <h5 class="stat-title">Connectés</h5>
-      <p class="stat-value"><%= somme %></p>
+      <p class="stat-value" style="text-align: center;"><%= somme %></p>
     </div>
   </div>
 
