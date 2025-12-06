@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Section = require('../models/sectionmodel');
-
+var nom,role;
 // 🧾 Afficher la liste des sections
 router.get('/', async (req, res) => {
-  const { nom, role } = req.query; // récupère depuis l’URL ex: /section?nom=Admin&role=Chef
+   { nom, role } = req.query; // récupère depuis l’URL ex: /section?nom=Admin&role=Chef
 
   try {
     const sections = await Section.find();
@@ -18,12 +18,12 @@ router.get('/', async (req, res) => {
 // ➕ Ajouter une section ✅ CORRIGÉ
 router.post('/add', async (req, res) => {
   try {
-    const { nom, chef, localisation, userNom, userRole } = req.body;
+    const { nomS, chef, localisation } = req.body;
 
-    await Section.create({ nom, chef, localisation });
+    await Section.create({ nomS, chef, localisation });
 
     // ✅ Redirection correcte après l'ajout
-    res.redirect(`/section?nom=${userNom}&role=${userRole}`);
+    res.redirect(`/section?nom=${nom}&role=${role}`);
   } catch (err) {
     console.error('❌ Erreur ajout section :', err);
     res.status(500).send('Erreur serveur');
