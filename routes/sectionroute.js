@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Section = require('../models/sectionmodel');
-var nom,role;
+
 // 🧾 Afficher la liste des sections
 router.get('/', async (req, res) => {
-   { nom, role } = req.query; // récupère depuis l’URL ex: /section?nom=Admin&role=Chef
+const   { nom, role } = req.query; // récupère depuis l’URL ex: /section?nom=Admin&role=Chef
 
   try {
     const sections = await Section.find();
