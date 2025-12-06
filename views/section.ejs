@@ -180,9 +180,8 @@
   <div class="collapse navbar-collapse justify-content-end" id="mainNav">
     <ul class="navbar-nav align-items-center gap-2">
       <li class="nav-item"><a class="nav-link" href="/materiel?nom=<%= nom %>&role=<%= role %>">🏠 Accueil</a></li>
-      <li class="nav-item"><a class="nav-link" href="/section?nom=<%= nom %>&role=<%= role %>">📁 Sections</a></li>
-
-      <% if(role==='Administrateur'){ %>
+     <% if(role==='Administrateur'){ %>
+        <li class="nav-item"><a class="nav-link" href="/section?nom=<%= nom %>&role=<%= role %>">📁 Sections</a></li>
         <li class="nav-item"><a class="nav-link" href="/stock?nom=<%= nom %>&role=<%= role %>">📦 Stock</a></li>
       <% } %>
 
