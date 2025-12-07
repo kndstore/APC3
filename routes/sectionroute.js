@@ -4,7 +4,7 @@ const Section = require('../models/sectionmodel');
 
 // 🧾 Afficher la liste des sections
 router.get('/', async (req, res) => {
-const   { nom, role } = req.query; // récupère depuis l’URL ex: /section?nom=Admin&role=Chef
+  const { nom, role } = req.query; // récupère depuis l’URL ex: /section?nom=Admin&role=Chef
 
   try {
     const sections = await Section.find();
@@ -15,20 +15,25 @@ const   { nom, role } = req.query; // récupère depuis l’URL ex: /section?nom
   }
 });
 
-// ➕ Ajouter une section ✅ CORRIGÉ
+// ➕ Ajouter une section ✅ FINAL
 router.post('/add', async (req, res) => {
   try {
-    const { nomS, chef, localisation } = req.body;
-
-    await Section.create({ nomS, chef, localisation });
-
-    // ✅ Redirection correcte après l'ajout
-    res.redirect(`/section?nom=${nom}&role=${role}`);
+    const { nom: userNom, role } = req.query;  // 👈 Renommé pour clarté
+    
+    console.log('📋 Données reçues:', req.body); // 👈 Debug temporaire
+    
+    // ✅ Sauvegarde en DB
+    await Section.create(req.body);
+    
+    // ✅ REDIRECTION → recharge la liste avec NOUVELLE section
+    res.redirect(`/section/?nom=${userNom}&role=${role}`);
   } catch (err) {
     console.error('❌ Erreur ajout section :', err);
     res.status(500).send('Erreur serveur');
   }
 });
+
+
 
 // 🔄 Mettre à jour une section
 router.put('/update/:id', async (req, res) => {
