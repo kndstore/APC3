@@ -15,12 +15,25 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ➕ Ajouter une section
+// ➕ Ajouter une section ✅ FINAL
 router.post('/add', async (req, res) => {
-  const { nom, chef, localisation, userNom, userRole } = req.body; // 👈 userNom/Role viennent du formulaire caché
-  await Section.create({ nom, chef, localisation });
-  res.redirect(`/section?nom=${userNom}&role=${userRole}`); // 👈 Retour avec infos utilisateur
+  try {
+    const { nom: userNom, role } = req.query;  // 👈 Renommé pour clarté
+    
+    console.log('📋 Données reçues:', req.body); // 👈 Debug temporaire
+    
+    // ✅ Sauvegarde en DB
+    await Section.create(req.body);
+    
+    // ✅ REDIRECTION → recharge la liste avec NOUVELLE section
+    res.redirect(`/section/?nom=${userNom}&role=${role}`);
+  } catch (err) {
+    console.error('❌ Erreur ajout section :', err);
+    res.status(500).send('Erreur serveur');
+  }
 });
+
+
 
 // 🔄 Mettre à jour une section
 router.put('/update/:id', async (req, res) => {

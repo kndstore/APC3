@@ -172,6 +172,7 @@
     <img src="/images/ZY.png" alt="Logo APC">
     <span style="color: gold;text-shadow:5px 5px 5px #1e293b;">APC ZIGHOUD Youcef</span>
   </a>
+           <p id="adm" style="margin: 5px;font-size:12px ;"> <%= nom %> (<%= role %>)</p>
 
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
     <span class="navbar-toggler-icon"></span>
@@ -180,11 +181,10 @@
   <div class="collapse navbar-collapse justify-content-end" id="mainNav">
     <ul class="navbar-nav align-items-center gap-2">
       <li class="nav-item"><a class="nav-link" href="/materiel?nom=<%= nom %>&role=<%= role %>">🏠 Accueil</a></li>
-      <li class="nav-item"><a class="nav-link" href="/section?nom=<%= nom %>&role=<%= role %>">📁 Sections</a></li>
-
-      <% if(role==='Administrateur'){ %>
+    
+        <li class="nav-item"><a class="nav-link" href="/section?nom=<%= nom %>&role=<%= role %>">📁 Sections</a></li>
         <li class="nav-item"><a class="nav-link" href="/stock?nom=<%= nom %>&role=<%= role %>">📦 Stock</a></li>
-      <% } %>
+      
 
       <li class="nav-item">
         <button id="toggleMode" class="btn btn-sm btn-toggle">🌙</button>
@@ -207,7 +207,7 @@
 
         <!-- Formulaire -->
         <h5 class="mb-3 fw-semibold text-success">➕ Ajouter une Section</h5>
-        <form id="addForm" class="row g-3" method="POST" action="/section/add">
+        <form id="addForm" class="row g-3" method="POST" action="/section/add?nom=<%= nom %>&role=<%= role %>">
 
           <div class="col-12 col-md-4">
             <input list="sectionsList" id="nomSectionInput" name="nom" class="form-control" placeholder="Nom de la section" required>

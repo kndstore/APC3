@@ -1,4 +1,7 @@
+
 const mongoose = require('mongoose');
+
+
 
 const sectionSchema = new mongoose.Schema({
   nom: { type: String, required: true },
