@@ -320,6 +320,11 @@ if ("serviceWorker" in navigator) {
       <img src="/images/ZY.png" alt="Logo APC" width="40" height="40" class="me-2 rounded-circle shadow-sm">
 
     </a>
+<!-- 👈 AJOUTE dans navbar (après logo) -->
+<div class="ms-3 badge bg-success rounded-pill">
+  <i class="fas fa-users"></i> 
+  <span id="usersCount">0</span> connecté(s)
+</div>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" style="background-color: #16a34a;font-size: large;">
       <span class="navbar-toggler-icon">    
@@ -979,6 +984,20 @@ document.getElementById('exportFiche').addEventListener('click', () => {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+<!-- 👈 AVANT </body> dans TOUS tes EJS -->
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+  const nomUser = '<%= nom %>';
+  
+  // 👈 Envoi login
+  socket.emit('user-login', { nom: nomUser });
+  
+  // 👈 Affiche compteur temps réel
+  socket.on('users-count', (count) => {
+    document.getElementById('usersCount').textContent = count;
+  });
+</script>
 
 </body>
 </html>

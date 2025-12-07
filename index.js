@@ -8,11 +8,13 @@ const stockRoute = require('./routes/stock');
 const historiqueRoute = require('./routes/historiqueroute');
 const exportRoute = require('./routes/export');
 const validationRoute = require("./routes/validationroute");
-
+const http = require('http');
+const { Server } = require('socket.io'); // 👈 AJOUTE
 require('dotenv').config();
 
 const app = express();;
-
+const server = http.createServer(app);  // 👈 Wrap Express
+const io = new Server(server);          // 👈 Socket.io
 // Middleware
 
 app.use(express.urlencoded({ extended: true }));
@@ -42,6 +44,22 @@ app.use('/export', exportRoute);
 
 app.use("/validation", validationRoute);
 
+// 👈 COMPTEUR CONNECTÉS
+let connectedUsers = new Set(); // Stocke les sessions
+
+io.on('connection', (socket) => {
+  console.log('👤 Nouvel utilisateur connecté');
+  
+  socket.on('user-login', (userData) => {
+    connectedUsers.add(userData.nom);
+    io.emit('users-count', connectedUsers.size); // Broadcast
+  });
+  
+  socket.on('disconnect', () => {
+    connectedUsers.delete(userData?.nom); // Nettoie
+    io.emit('users-count', connectedUsers.size);
+  });
+});
 
 // Lancer serveur
 const PORT = 3000;
