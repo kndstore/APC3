@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <title>Gestion du Matériel - APC Zighoud Youcef</title>
@@ -8,571 +9,649 @@
   <!-- 🔹 jsPDF + AutoTable -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-<!-- Favicon PC -->
-<link rel="icon" type="image/png" href="/icons/favicon.ico">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-<!-- Android / Web App Icon -->
-<link rel="apple-touch-icon" href="/icons/zy.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+  <!-- Favicon PC -->
+  <link rel="icon" type="image/png" href="/icons/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <!-- Android / Web App Icon -->
+  <link rel="apple-touch-icon" href="/icons/zy.png">
 
-<!-- Web Manifest (pour installation APK style) -->
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#1e293b">
+  <!-- Web Manifest (pour installation APK style) -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#1e293b">
 
-<style>
+  <style>
+    /* Font moderne */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
 
-  /* Font moderne */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
-
-/* 🌟 Conteneur flex */
-.d-flex {
-  gap: 2rem; /* espace entre les cartes */
-  flex-wrap: wrap;
-  justify-content: center; /* centre les cartes si espace libre */
-}
-
-
-
-/* 🌟 Icones */
-.stat-icon {
-  font-size: 1rem;
-  margin-bottom: 1rem;
-}
-
-/* 🌟 Titres */
-.stat-title {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-/* 🌟 Valeurs */
-.stat-value {
-  font-size: 2rem;
-  font-weight: 700;
-}
+    /* 🌟 Conteneur flex */
+    .d-flex {
+      gap: 2rem;
+      /* espace entre les cartes */
+      flex-wrap: wrap;
+      justify-content: center;
+      /* centre les cartes si espace libre */
+    }
 
 
 
-* {
-  font-family: "Roboto", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 600;
-  font-style: normal;
-  font-variation-settings:"wdth" 100;
-    font-size: large;
-}
-  
-a {
-  color: inherit;        /* Hérite de la couleur du parent */
-  text-decoration: none; /* Enlève le soulignement */
-}
-:root {
-  --green: #16a34a;
-  --green-dark: #0f3d22;
-  --red: #e11d48;
-  --blue: #1e3a8a;
-  --light-bg: #f8fafc;
-  --dark-bg: #0f172a;
-  --light-text: #111827;
-  --dark-text: #f1f1f1;
-  --card-bg: rgba(255,255,255,0.05);
-  --card-bg-light: rgba(255,255,255,0.95);
-}
+    /* 🌟 Icones */
+    .stat-icon {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
 
-/* 🌙 Général */
-body {display: flex;
-  align-items: center;
-flex-direction: column;
-  height: 100vh;
-  overflow: visible;
-  font-family: 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #052e16, #0f172a);
-  color: var(--dark-text);
-  padding-top: 80px; 
-  padding-left: 5px;
-  padding-right: 5px;
-  transition: all 0.3s ease;
-}
-body.light-mode {
-  background: linear-gradient(135deg, #e6f4ea, #ffffff);
-  color: var(--light-text);
-}
+    /* 🌟 Titres */
+    .stat-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
 
-/* 🔹 Navbar */
-.navbar {
-  background: rgba(27,27,27,0.95) !important;
-  backdrop-filter: blur(10px);
-  border-bottom: 2px solid var(--green);
-}
-.navbar .navbar-brand, 
-.navbar .nav-link, 
-.navbar .navbar-text p .sss{
-  color: var(--dark-text) !important;
-}
-body.light-mode .navbar {
-  background: rgba(255,255,255,0.95) !important;
-  border-bottom: 2px solid var(--red);
-}
-body.light-mode .navbar .navbar-brand,
-body.light-mode .navbar .nav-link,
-body.light-mode .navbar .navbar-text p .sss{
-  color: var(--light-text) !important;
-}
-
-/* 🔹 Boutons principaux */
-.btn-success, .btn-danger, .btn-warning {
-  border-radius: 12px;
-  font-weight: 600;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  transition: all 0.3s ease;
-}
-.btn-success:hover { transform: scale(1.05); box-shadow: 0 6px 12px rgba(0,0,0,0.2); }
-.btn-danger:hover { transform: scale(1.05); box-shadow: 0 6px 12px rgba(0,0,0,0.2); }
-.btn-warning:hover { transform: scale(1.05); box-shadow: 0 6px 12px rgba(0,0,0,0.2); }
-
-/* 🔹 Bouton mode clair/sombre */
-#toggleMode {
-  border-radius: 50%;
-  padding: 8px 14px;
-  font-size: 1rem;
-  position: fixed;
-  top: 90px;
-  right: 20px;
-  z-index: 999;
-  cursor: pointer;
-  transition: 0.3s;
-}
-#toggleMode:hover { transform: scale(1.1); }
-
-/* 🔹 Carte glassmorphism */
-.glass-card {
-  background: var(--card-bg);
-  border-radius: 16px;
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.15);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-  padding: 20px;
-  margin-bottom: 20px;
-}
-body.light-mode .glass-card {
-  background: var(--card-bg-light);
-  border: 1px solid rgba(0,0,0,0.1);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-}
-
-/* 🔹 Inputs et selects */
-input, select {
-  border-radius: 12px;
-  border: 1px solid #ccc;
-  padding: 8px 12px;
-  transition: all 0.3s ease;
-}
-input:focus, select:focus {
-  border-color: var(--green);
-  box-shadow: 0 0 8px rgba(22,163,74,0.3);
-}
-body.light-mode input:focus, body.light-mode select:focus {
-  border-color: var(--red);
-  box-shadow: 0 0 8px rgba(225,29,72,0.3);
-}
-
-/* 🔹 Table moderne */
-.table thead {
-  background: var(--green);
-  color: #fff;
-}
-body.light-mode .table thead { background: var(--red); }
-.table tbody tr:hover {
-  background: rgba(34,197,94,0.1);
-  transition: 0.2s;
-}
-body.light-mode .table tbody tr:hover { background: rgba(225,29,72,0.1); }
-
-/* 🔹 Boutons navbar */
-.btnnav-link {
-  display: inline-block;
-  padding: 8px 18px;
-  border-radius: 10px;
-  background-color: #2f855a;
-  color: #fff;
-  font-weight: 600;
-  transition: all 0.25s ease;
- 
-}
-.btnnav-link:hover {
-  transform: translateY(-2px);
-}
-body.light-mode .btnnav-link {
-  color: var(--light-text);
-  background-color: rgba(255, 255, 255, 0.6);
-}
-body.light-mode .btnnav-link:hover {
-  background:  #2f855a;
-  color: #fff;
-}
-
-/* 🔹 Footer */
-footer {
-  text-align: center;
-  margin-top: 2rem;
-  color: #94a3b8;
-}
-body.light-mode footer { color: #475569; }
-
-/* 🌟 Responsive pour mobile */
-@media (max-width: 1100px) {
- 
-  #adm{font-size: 16px;color: rgb(245, 54, 20);text-shadow: #0f172a;}
-  
-  .container{width: 100%;}
-  
-}
-
-.container {
-  width: 100%;
-  max-width: 100%;    /* يمنع التضييق */
-  margin-left: 0;
-  margin-right: 0;
-  padding-left: 8px;  /* أو 0 لو تريد ملاصق للحافة */
-  padding-right: 8px;
-}
+    /* 🌟 Valeurs */
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+    }
 
 
-.stats-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 16px;
-}
 
-.stat-card {
-  flex: 1 1 220px;
-  max-width: 260px;
-  background: radial-gradient(circle at top left, #22c55e 0, #1a4b04 55%);
-  border-radius: 18px;
-  padding: 5px;
-  margin: 5px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.75);
-  color: #e5e7eb;
-  border: 1px solid rgba(148, 163, 184, 0.3);
-}
+    * {
+      font-family: "Roboto", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: 600;
+      font-style: normal;
+      font-variation-settings: "wdth" 100;
+      font-size: large;
+    }
 
-.stat-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  background: rgba(15, 23, 42, 0.8);
-}
+    a {
+      color: inherit;
+      /* Hérite de la couleur du parent */
+      text-decoration: none;
+      /* Enlève le soulignement */
+    }
 
-.stat-title {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: #9ca3af;
-  margin: 0;
-}
+    :root {
+      --green: #16a34a;
+      --green-dark: #0f3d22;
+      --red: #e11d48;
+      --blue: #1e3a8a;
+      --light-bg: #f8fafc;
+      --dark-bg: #0f172a;
+      --light-text: #111827;
+      --dark-text: #f1f1f1;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-bg-light: rgba(255, 255, 255, 0.95);
+    }
 
-.stat-value {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #f9fafb;
-  margin: 2px 0 0;
-}
+    /* 🌙 Général */
+    body {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      overflow: visible;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #052e16, #0f172a);
+      color: var(--dark-text);
+      padding-top: 80px;
+      padding-left: 5px;
+      padding-right: 5px;
+      transition: all 0.3s ease;
+    }
 
-.stat-text {
-  display: flex;
-  flex-direction: column;
-}
+    body.light-mode {
+      background: linear-gradient(135deg, #e6f4ea, #ffffff);
+      color: var(--light-text);
+    }
 
-/* هوفر لطيف */
-.stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 24px 45px rgba(15, 23, 42, 0.9);
-  transition: 0.18s ease-out;
-}
+    /* 🔹 Navbar */
+    .navbar {
+      background: rgba(27, 27, 27, 0.95) !important;
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid var(--green);
+    }
 
-</style>
+    .navbar .navbar-brand,
+    .navbar .nav-link,
+    .navbar .navbar-text p .sss {
+      color: var(--dark-text) !important;
+    }
+
+    body.light-mode .navbar {
+      background: rgba(255, 255, 255, 0.95) !important;
+      border-bottom: 2px solid var(--red);
+    }
+
+    body.light-mode .navbar .navbar-brand,
+    body.light-mode .navbar .nav-link,
+    body.light-mode .navbar .navbar-text p .sss {
+      color: var(--light-text) !important;
+    }
+
+    /* 🔹 Boutons principaux */
+    .btn-success,
+    .btn-danger,
+    .btn-warning {
+      border-radius: 12px;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+    }
+
+    .btn-success:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-danger:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-warning:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* 🔹 Bouton mode clair/sombre */
+    #toggleMode {
+      border-radius: 50%;
+      padding: 8px 14px;
+      font-size: 1rem;
+      position: fixed;
+      top: 90px;
+      right: 20px;
+      z-index: 999;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #toggleMode:hover {
+      transform: scale(1.1);
+    }
+
+    /* 🔹 Carte glassmorphism */
+    .glass-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    body.light-mode .glass-card {
+      background: var(--card-bg-light);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 🔹 Inputs et selects */
+    input,
+    select {
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      transition: all 0.3s ease;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 8px rgba(22, 163, 74, 0.3);
+    }
+
+    body.light-mode input:focus,
+    body.light-mode select:focus {
+      border-color: var(--red);
+      box-shadow: 0 0 8px rgba(225, 29, 72, 0.3);
+    }
+
+    /* 🔹 Table moderne */
+    .table thead {
+      background: var(--green);
+      color: #fff;
+    }
+
+    body.light-mode .table thead {
+      background: var(--red);
+    }
+
+    .table tbody tr:hover {
+      background: rgba(34, 197, 94, 0.1);
+      transition: 0.2s;
+    }
+
+    body.light-mode .table tbody tr:hover {
+      background: rgba(225, 29, 72, 0.1);
+    }
+
+    /* 🔹 Boutons navbar */
+    .btnnav-link {
+      display: inline-block;
+      padding: 8px 18px;
+      border-radius: 10px;
+      background-color: #2f855a;
+      color: #fff;
+      font-weight: 600;
+      transition: all 0.25s ease;
+
+    }
+
+    .btnnav-link:hover {
+      transform: translateY(-2px);
+    }
+
+    body.light-mode .btnnav-link {
+      color: var(--light-text);
+      background-color: rgba(255, 255, 255, 0.6);
+    }
+
+    body.light-mode .btnnav-link:hover {
+      background: #2f855a;
+      color: #fff;
+    }
+
+    /* 🔹 Footer */
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      color: #94a3b8;
+    }
+
+    body.light-mode footer {
+      color: #475569;
+    }
+
+    /* 🌟 Responsive pour mobile */
+    @media (max-width: 1100px) {
+
+      #adm {
+        font-size: 16px;
+        color: rgb(245, 54, 20);
+        text-shadow: #0f172a;
+      }
+
+      .container {
+        width: 100%;
+      }
+
+    }
+
+    .container {
+      width: 100%;
+      max-width: 100%;
+      /* يمنع التضييق */
+      margin-left: 0;
+      margin-right: 0;
+      padding-left: 8px;
+      /* أو 0 لو تريد ملاصق للحافة */
+      padding-right: 8px;
+    }
+
+
+    .stats-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .stat-card {
+      flex: 1 1 220px;
+      max-width: 260px;
+      background: radial-gradient(circle at top left, #22c55e 0, #1a4b04 55%);
+      border-radius: 18px;
+      padding: 5px;
+      margin: 5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 18px 35px rgba(15, 23, 42, 0.75);
+      color: #e5e7eb;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    .stat-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    .stat-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #9ca3af;
+      margin: 0;
+    }
+
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #f9fafb;
+      margin: 2px 0 0;
+    }
+
+    .stat-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* هوفر لطيف */
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 45px rgba(15, 23, 42, 0.9);
+      transition: 0.18s ease-out;
+    }
+  </style>
 
 </head>
 <script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/sw.js");
-}
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/sw.js");
+  }
 </script>
+
 <body>
 
-<!-- 🔹 NAVBAR FIXE -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
-  <div class="container-fluid" style="width: 100%; font-size: large;">
-    <a class="navbar-brand d-flex align-items-center" href="#">
-      <img src="/images/ZY.png" alt="Logo APC" width="40" height="40" class="me-2 rounded-circle shadow-sm">
+  <!-- 🔹 NAVBAR FIXE -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
+    <div class="container-fluid" style="width: 100%; font-size: large;">
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <img src="/images/ZY.png" alt="Logo APC" width="40" height="40" class="me-2 rounded-circle shadow-sm">
 
-    </a>
-<!-- 👈 AJOUTE dans navbar (après logo) -->
-<div class="ms-3 badge bg-success rounded-pill">
-  <i class="fas fa-users"></i> 
-  <span id="usersCount">0</span> connecté(s)
-</div>
+      </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" style="background-color: #16a34a;font-size: large;">
-      <span class="navbar-toggler-icon">    
-      </span>
-    </button>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+        style="background-color: #16a34a;font-size: large;">
+        <span class="navbar-toggler-icon">
+        </span>
+      </button>
 
-    <div class="collapse navbar-collapse justify-content-between" id="mainNav">
-           <p id="adm" style="margin: 5px;font-size:12px ;"> <%= nom %> (<%= role %>)</p>
+      <div class="collapse navbar-collapse justify-content-between" id="mainNav">
+        <p id="adm" style="margin: 5px;font-size:12px ;">
+          <%= nom %> (<%= role %>)
+        </p>
 
-      <ul class="navbar-nav align-items-center gap-2">
-        <li><a class="btnnav-link" href="/materiel?nom=<%= nom %>&role=<%= role %>" style="font-size: large;"> Accueil</a></li>
-      
-        <% if (role === 'Administrateur') { %>
-          <li><a class="btnnav-link" href="/section?nom=<%= nom %>&role=<%= role %>" style="font-size:medium;"> Sections</a></li>
-          <li><a class="btnnav-link" href="/stock  ?nom=<%= nom %>&role=<%= role %>" style="font-size: medium;"> Stock  </a></li>
-          <li><a class="btnnav-link" href="/utilisateurs?nom=<%= nom %>&role=<%= role %>" style="font-size: medium;"> Utilisateurs</a></li>
-          <li><a class="btnnav-link" href="/historique?nom=<%= nom %>&role=<%= role %>" style="font-size: medium;"> Historique</a></li>
-          <li><a class="btnnav-link" href="/validation?nom=<%= nom %>&role=<%= role %>" style="font-size: medium;"> Validation</a></li>
+        <ul class="navbar-nav align-items-center gap-2">
+          <li><a class="btnnav-link" href="/materiel?nom=<%= nom %>&role=<%= role %>" style="font-size: large;">
+              Accueil</a></li>
 
-          <% } %>
-      </ul>
+          <% if (role==='Administrateur' ) { %>
+            <li><a class="btnnav-link" href="/section?nom=<%= nom %>&role=<%= role %>" style="font-size:medium;">
+                Sections</a></li>
+            <li><a class="btnnav-link" href="/stock?nom=<%= nom %>&role=<%= role %>" style="font-size: medium;"> Stock
+              </a></li>
+            <li><a class="btnnav-link" href="/utilisateurs?nom=<%= nom %>&role=<%= role %>" style="font-size: medium;">
+                Utilisateurs</a></li>
+            <li><a class="btnnav-link" href="/historique?nom=<%= nom %>&role=<%= role %>" style="font-size: medium;">
+                Historique</a></li>
+            <li><a class="btnnav-link" href="/validation?nom=<%= nom %>&role=<%= role %>" style="font-size: medium;">
+                Validation</a></li>
 
-      <ul class="navbar-nav align-items-center gap-2">
-        
-        
-<form action="/delete-first" method="POST" style="display: inline;" >
-  <button type="submit" class="btn btn-warning" style="font-size: large;">Deconnexion</button>
-</form>     
- </ul>
-    </div>
-  </div>
-</nav>
+            <% } %>
+        </ul>
 
-<!-- 🔹 CONTENU -->
-<div class="container">
- 
-<div class="stats-wrapper">
-
-  <div class="stat-card" style=" flex:1 1 200px; max-width: 100%">
-    <div class="stat-icon">🚨</div>
-    <div class="stat-text">
-      <h5 class="stat-title">En panne</h5>
-      <p class="stat-value " style="text-align: center;"><%= totalPannes %></p>
-    </div>
-  </div>
-
-  <div class="stat-card" style=" flex:1 1 200px; max-width: 100%">
-    <div class="stat-icon">📁</div>
-    <div class="stat-text">
-      <h5 class="stat-title">Sections</h5>
-      <p class="stat-value" style="text-align: center;"><%= totalSection %></p>
-    </div>
-  </div>
-
-  <div class="stat-card" style=" flex:1 1 200px; max-width: 100%">
-    <div class="stat-icon">📦</div>
-    <div class="stat-text">
-      <h5 class="stat-title">Articles</h5>
-      <p class="stat-value" style="text-align: center;"><%= totalArticles %></p>
-    </div>
-  </div>
-
-  <div class="stat-card" style=" flex:1 1 200px; max-width: 100%">
-    <div class="stat-icon">👥</div>
-    <div class="stat-text">
-      <h5 class="stat-title">Connectés</h5>
-      <p class="stat-value" style="text-align: center;"><%= somme %></p>
-    </div>
-  </div>
-
-</div>
+        <ul class="navbar-nav align-items-center gap-2">
 
 
-  <div class="glass-card">
-    <h4 class="text-center mb-4 text-success">📦 Liste du Matériel</h4>
-<!-- 🔹 Bouton qui défile vers le formulaire d’ajout -->
-
-    <!-- 🔎 Filtres -->
-    <div class="d-flex flex-wrap justify-content-between mb-3 gap-2" style="align-content: center;align-items: center;">
-      <!-- Désignation -->
-      <div class="input-group w-auto">
-        <span class="input-group-text bg-success text-white">🔍</span>
-        <input 
-          type="text" 
-          id="filterDesignation" 
-          class="form-control" 
-          placeholder="Rechercher par désignation..."
-          list="designationsList"
-          autocomplete="off">
-        <datalist id="designationsList">
-          <% 
-            const uniqueDesignations = [...new Set(materiels.map(m => (m.designation || '').toString().trim()))].filter(Boolean);
-            uniqueDesignations.forEach(des => { 
-          %>
-            <option value="<%= des %>"></option>
-          <% }) %>
-        </datalist>
+          <form action="/delete-first" method="POST" style="display: inline;">
+            <button type="submit" class="btn btn-warning" style="font-size: large;">Deconnexion</button>
+          </form>
+        </ul>
       </div>
+    </div>
+  </nav>
 
-      <!-- Position -->
-      <div class="input-group w-auto">
-        <span class="input-group-text bg-danger text-white">⚙️</span>
-        <select id="filterPosition" class="form-select">
-          <option value="">Toutes les positions</option>
-          <option value="En marche">En marche</option>
-          <option value="En panne">En panne</option>
-        </select>
-      </div>
-  
-      <!-- btn ajouter -->
-      <div class="input-group w-auto">
-        <button class="btn btn-warning">
-        <a href="#addForm" class="text-decoration-none text-dark fw-bold">➕ Ajouter</a>
-        </button>
+  <!-- 🔹 CONTENU -->
+  <div class="container">
+
+    <div class="stats-wrapper">
+
+      <div class="stat-card" style=" flex:1 1 200px; max-width: 100%">
+        <div class="stat-icon">🚨</div>
+        <div class="stat-text">
+          <h5 class="stat-title">En panne</h5>
+          <p class="stat-value " style="text-align: center;">
+            <%= totalPannes %>
+          </p>
         </div>
-  
-      <!-- Section -->
-      <div class="input-group w-auto">
-        <span class="input-group-text btn-warning text-white">⚙️</span>
-        <select id="filterSection" class="form-select">
-          <option value="">Toutes les sections</option>
-          <% 
-            const uniqueSections = [...new Set(materiels.map(m => (m.section || '').toString().trim()))].filter(Boolean);
-            uniqueSections.forEach(section => { 
-          %>
-            <option value="<%= section %>"><%= section %></option>
-          <% }) %>
-        </select>
-        
       </div>
-      
+
+      <div class="stat-card" style=" flex:1 1 200px; max-width: 100%">
+        <div class="stat-icon">📁</div>
+        <div class="stat-text">
+          <h5 class="stat-title">Sections</h5>
+          <p class="stat-value" style="text-align: center;">
+            <%= totalSection %>
+          </p>
+        </div>
+      </div>
+
+      <div class="stat-card" style=" flex:1 1 200px; max-width: 100%">
+        <div class="stat-icon">📦</div>
+        <div class="stat-text">
+          <h5 class="stat-title">Articles</h5>
+          <p class="stat-value" style="text-align: center;">
+            <%= totalArticles %>
+          </p>
+        </div>
+      </div>
+
+      <!-- <div class="stat-card" style=" flex:1 1 200px; max-width: 100%">
+        <div class="stat-icon">👥</div>
+        <div class="stat-text">
+          <h5 class="stat-title">Connectés</h5>
+          <p class="stat-value" style="text-align: center;">
+            <%= somme %>
+          </p>
+        </div>
+      </div> -->
+
+    </div>
+
+
+    <div class="glass-card">
+      <h4 class="text-center mb-4 text-success">📦 Liste du Matériel</h4>
+      <!-- 🔹 Bouton qui défile vers le formulaire d’ajout -->
+
+      <!-- 🔎 Filtres -->
+      <div class="d-flex flex-wrap justify-content-between mb-3 gap-2"
+        style="align-content: center;align-items: center;">
+        <!-- Désignation -->
+        <div class="input-group w-auto">
+          <span class="input-group-text bg-success text-white">🔍</span>
+          <input type="text" id="filterDesignation" class="form-control" placeholder="Rechercher par désignation..."
+            list="designationsList" autocomplete="off">
+          <datalist id="designationsList">
+            <% const uniqueDesignations=[...new Set(materiels.map(m=> (m.designation ||
+              '').toString().trim()))].filter(Boolean);
+              uniqueDesignations.forEach(des => {
+              %>
+              <option value="<%= des %>"></option>
+              <% }) %>
+          </datalist>
+        </div>
+
+        <!-- Position -->
+        <div class="input-group w-auto">
+          <span class="input-group-text bg-danger text-white">⚙️</span>
+          <select id="filterPosition" class="form-select">
+            <option value="">Toutes les positions</option>
+            <option value="En marche">En marche</option>
+            <option value="En panne">En panne</option>
+          </select>
+        </div>
+
+        <!-- btn ajouter -->
+        <div class="input-group w-auto">
+          <button class="btn btn-warning">
+            <a href="#addForm" class="text-decoration-none text-dark fw-bold">➕ Ajouter</a>
+          </button>
+        </div>
+
+        <!-- Section -->
+        <div class="input-group w-auto">
+          <span class="input-group-text btn-warning text-white">⚙️</span>
+          <select id="filterSection" class="form-select">
+            <option value="">Toutes les sections</option>
+            <% const uniqueSections=[...new Set(materiels.map(m=> (m.section ||
+              '').toString().trim()))].filter(Boolean);
+              uniqueSections.forEach(section => {
+              %>
+              <option value="<%= section %>">
+                <%= section %>
+              </option>
+              <% }) %>
+          </select>
+
+        </div>
+
         <div class="input-group w-auto">
           <button id="exportPDF" class="btn btn-danger">📄 PDF</button>
         </div>
         <div class="input-group w-auto">
           <button id="exportFiche" class="btn btn-success">📋 Fiche Inventaire</button>
         </div>
-    </div>
+      </div>
 
-    <!-- 🧾 TABLE -->
-    <div class="table-responsive">
-      <table class="table table-hover align-middle text-center" id="myTable">
-        <thead>
-          <tr>
-            <th>Désignation</th>
-            <th>Qté</th>
-            <th>N° Série</th>
-            <th>Position(etat)</th>
-            <th>Section</th>
-            <th>Date d'entrée</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="materielTable">
-          <% materiels.forEach(m => { %>
-            <tr data-id="<%= m._id %>">
-              <td contenteditable="true"><%= m.designation %></td>
-              <td contenteditable="true"><%= m.qte %></td>
-              <td contenteditable="true"><%= m.ns %></td>
-              <td contenteditable="true"><%= m.position %></td>
-              <td contenteditable="true"><%= m.section %></td>
-              <td contenteditable="true"><%= m.date_entree.toISOString().split('T')[0] %></td>
-              <td>
-                <button class="btn btn-warning btn-sm editBtn">💾</button>
-                <button class="btn btn-danger btn-sm deleteBtn">🗑</button>
-                <button class="btn btn-primary btn-sm exportBtn">📄 Décharge</button>
-
-              </td>
+      <!-- 🧾 TABLE -->
+      <div class="table-responsive">
+        <table class="table table-hover align-middle text-center" id="myTable">
+          <thead>
+            <tr>
+              <th>Désignation</th>
+              <th>Qté</th>
+              <th>N° Série</th>
+              <th>Position(etat)</th>
+              <th>Section</th>
+              <th>Date d'entrée</th>
+              <th>Actions</th>
             </tr>
-          <% }) %>
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody id="materielTable">
+            <% materiels.forEach(m=> { %>
+              <tr data-id="<%= m._id %>">
+                <td contenteditable="true">
+                  <%= m.designation %>
+                </td>
+                <td contenteditable="true">
+                  <%= m.qte %>
+                </td>
+                <td contenteditable="true">
+                  <%= m.ns %>
+                </td>
+                <td contenteditable="true">
+                  <%= m.position %>
+                </td>
+                <td contenteditable="true">
+                  <%= m.section %>
+                </td>
+                <td contenteditable="true">
+                  <%= m.date_entree.toISOString().split('T')[0] %>
+                </td>
+                <td>
+                  <button class="btn btn-warning btn-sm editBtn">💾</button>
+                  <button class="btn btn-danger btn-sm deleteBtn">🗑</button>
+                  <button class="btn btn-primary btn-sm exportBtn">📄 Décharge</button>
 
-    <hr class="border-light my-4">
-    <h5 class="text-success " >➕ Ajouter un matériel</h5>
-
-   
-    <form id="addForm" class="row g-3">
-      <div class="col-md-4">
-       <input class="form-control" list="designationList" name="designation" placeholder="Désignation" required>
-       <datalist id="designationList"></datalist>
+                </td>
+              </tr>
+              <% }) %>
+          </tbody>
+        </table>
       </div>
+
+      <hr class="border-light my-4">
+      <h5 class="text-success ">➕ Ajouter un matériel</h5>
+
+
+      <form id="addForm" class="row g-3">
+        <div class="col-md-4">
+          <input class="form-control" list="designationList" name="designation" placeholder="Désignation" required>
+          <datalist id="designationList"></datalist>
+        </div>
         <script>
-  // 🔹 Charger les désignations depuis MongoDB
-  fetch('/stock/designations')
-    .then(res => res.json())
-    .then(data => {
-      const list = document.getElementById('designationList');
-      list.innerHTML = ''; // vider avant
-      data.forEach(designation => {
-        const option = document.createElement('option');
-        option.value = designation;
-        list.appendChild(option);
-      });
-    })
-    .catch(err => console.error('Erreur chargement désignations:', err));
+          // 🔹 Charger les désignations depuis MongoDB
+          fetch('/stock/designations')
+            .then(res => res.json())
+            .then(data => {
+              const list = document.getElementById('designationList');
+              list.innerHTML = ''; // vider avant
+              data.forEach(designation => {
+                const option = document.createElement('option');
+                option.value = designation;
+                list.appendChild(option);
+              });
+            })
+            .catch(err => console.error('Erreur chargement désignations:', err));
         </script>
-      <div class="col-md-2">
-        <input class="form-control" type="number" name="qte" placeholder="Qté" required value="1">
-      </div>
-      <div class="col-md-3">
-        <input class="form-control" name="ns" placeholder="Numéro de série" required>
-      </div>
-      <div class="col-md-3">
-  <select class="form-control" name="position" required>
-    
-    <option value="En marche">✅ En marche</option>
-    <option value="En panne">❌ En panne</option>
-  </select>
-</div>
-      <div class="col-md-4">
-  <input class="form-control" list="sectionList" name="section" placeholder="Section" required>
-  <datalist id="sectionList"></datalist>
-</div>
+        <div class="col-md-2">
+          <input class="form-control" type="number" name="qte" placeholder="Qté" required value="1">
+        </div>
+        <div class="col-md-3">
+          <input class="form-control" name="ns" placeholder="Numéro de série" required>
+        </div>
+        <div class="col-md-3">
+          <select class="form-control" name="position" required>
 
-<script>
-  // 🔹 Charger les sections depuis MongoDB
-  fetch('/section/noms')
-    .then(res => res.json())
-    .then(data => {
-      const list = document.getElementById('sectionList');
-      list.innerHTML = '';
-      data.forEach(section => {
-        const option = document.createElement('option');
-        option.value = section;
-        list.appendChild(option);
-      });
-    })
-    .catch(err => console.error('Erreur chargement sections:', err));
-</script>
+            <option value="En marche">✅ En marche</option>
+            <option value="En panne">❌ En panne</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control" list="sectionList" name="section" placeholder="Section" required>
+          <datalist id="sectionList"></datalist>
+        </div>
 
-      <div class="col-md-4">
-<input class="form-control" type="date" name="date_entree" id="date_entree" required>
-      </div>
-      <div class="col-md-4">
-<input class="form-control" type="hidden" name="validation" id="validation" required value="N">
-      </div>
-      <div class="col-md-4 d-grid">
-        <button class="btn btn-success">Ajouter</button>
-      </div>
-    </form>
+        <script>
+          // 🔹 Charger les sections depuis MongoDB
+          fetch('/section/noms')
+            .then(res => res.json())
+            .then(data => {
+              const list = document.getElementById('sectionList');
+              list.innerHTML = '';
+              data.forEach(section => {
+                const option = document.createElement('option');
+                option.value = section;
+                list.appendChild(option);
+              });
+            })
+            .catch(err => console.error('Erreur chargement sections:', err));
+        </script>
+
+        <div class="col-md-4">
+          <input class="form-control" type="date" name="date_entree" id="date_entree" required>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control" type="hidden" name="validation" id="validation" required value="N">
+        </div>
+        <div class="col-md-4 d-grid">
+          <button class="btn btn-success">Ajouter</button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
 
-<p class="text-center mt-4 opacity-75">© 2025 — APC Zighoud Youcef | Gestion du Matériel</p>
+  <p class="text-center mt-4 opacity-75">© 2025 — APC Zighoud Youcef | Gestion du Matériel</p>
 
-<!-- 🌗 Mode clair/sombre script -->
+  <!-- 🌗 Mode clair/sombre script -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const body = document.body;
@@ -592,412 +671,399 @@ if ("serviceWorker" in navigator) {
     });
   </script>
 
-<!-- ✏️ ÉDITION -->
-<script>
-document.querySelectorAll('.editBtn').forEach(btn => {
-  btn.addEventListener('click', async (e) => {
-    const row = e.target.closest('tr');
-    const id = row.dataset.id;
+  <!-- ✏️ ÉDITION -->
+  <script>
+    document.querySelectorAll('.editBtn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const row = e.target.closest('tr');
+        const id = row.dataset.id;
 
-    const data = {
-      designation: row.children[0].textContent.trim(),
-      qte: Number(row.children[1].textContent.trim()),
-      ns: row.children[2].textContent.trim(),
-      position: row.children[3].textContent.trim(),
-      section: row.children[4].textContent.trim(),
-      date_entree: row.children[5].textContent.trim()
-    };
+        const data = {
+          designation: row.children[0].textContent.trim(),
+          qte: Number(row.children[1].textContent.trim()),
+          ns: row.children[2].textContent.trim(),
+          position: row.children[3].textContent.trim(),
+          section: row.children[4].textContent.trim(),
+          date_entree: row.children[5].textContent.trim()
+        };
 
-    try {
-      const res = await fetch(`/materiel/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        try {
+          const res = await fetch(`/materiel/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+          if (res.ok) alert('✅ Matériel mis à jour !');
+          else alert('❌ Erreur lors de la mise à jour');
+        } catch (err) {
+          alert('⚠️ Erreur réseau');
+        }
       });
-      if (res.ok) alert('✅ Matériel mis à jour !');
-      else alert('❌ Erreur lors de la mise à jour');
-    } catch (err) {
-      alert('⚠️ Erreur réseau');
-    }
-  });
-});
-</script>
-
-<!-- 🗑 SUPPRESSION -->
-<script>
-document.querySelectorAll('.deleteBtn').forEach(btn => {
-  btn.addEventListener('click', async (e) => {
-    const row = e.target.closest('tr');
-    const id = row.dataset.id;
-
-    if (!confirm('Voulez-vous vraiment supprimer ce matériel ?')) return;
-
-    try {
-      const res = await fetch(`/materiel/${id}`, { method: 'DELETE' });
-      if (res.ok) {
-        row.remove();
-        alert('🗑 Matériel supprimé !');
-      } else {
-        alert('❌ Erreur lors de la suppression');
-      }
-    } catch (err) {
-      alert('⚠️ Erreur réseau');
-    }
-  });
-});
-</script>
-
-<!-- ➕ AJOUT -->
-<script>
-const addForm = document.getElementById('addForm');
-addForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const formData = new FormData(addForm);
-  const data = Object.fromEntries(formData.entries());
-
-  try {
-    const res = await fetch('/materiel', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
     });
+  </script>
 
-    if (res.ok) {
-      alert('✅ Matériel ajouté et stock mis à jour !');
-      location.reload(); // Recharge la page pour voir le nouveau matériel
-    } else {
-      // Lire le message du serveur
-      const message = await res.text();
-      alert(`⚠️ ${message}`);
-    }
-  } catch (err) {
-    console.error(err);
-    alert('⚠️ Erreur réseau');
-  }
-});
-</script>
+  <!-- 🗑 SUPPRESSION -->
+  <script>
+    document.querySelectorAll('.deleteBtn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const row = e.target.closest('tr');
+        const id = row.dataset.id;
 
+        if (!confirm('Voulez-vous vraiment supprimer ce matériel ?')) return;
 
-<!-- 🔎 FILTRAGE -->
-<script>
-const filterDesignation = document.getElementById('filterDesignation');
-const filterSection = document.getElementById('filterSection');
-const filterPosition = document.getElementById('filterPosition');
-const table = document.getElementById('materielTable');
-
-// ✅ Créer un élément pour afficher la somme (s’il n’existe pas déjà)
-let totalContainer = document.getElementById('totalQte');
-if (!totalContainer) {
-  totalContainer = document.createElement('div');
-  totalContainer.id = 'totalQte';
-  totalContainer.className = 'mt-3 fw-bold text-end text-success';
-  table.parentElement.appendChild(totalContainer);
-}
-
-if (table) {
-  function normalize(s) {
-    return (s || '').toString().trim().toLowerCase();
-  }
-
-  function filterTable() {
-    const designationValue = normalize(filterDesignation.value);
-    const sectionValue = normalize(filterSection.value);
-    const positionValue = normalize(filterPosition.value);
-
-    let totalQte = 0; // ✅ somme des quantités visibles
-
-    Array.from(table.getElementsByTagName('tr')).forEach(row => {
-      const designation = normalize(row.children[0].textContent);
-      const qte = parseFloat(row.children[1].textContent) || 0;
-      const position = normalize(row.children[3].textContent);
-      const section = normalize(row.children[4].textContent);
-
-      const matchDesignation = designation.includes(designationValue);
-      const matchSection = sectionValue === "" || section === sectionValue;
-      const matchPosition = positionValue === "" || position === positionValue;
-
-      const visible = (matchDesignation && matchSection && matchPosition);
-      row.style.display = visible ? "" : "none";
-
-      if (visible) totalQte += qte; // ✅ ajouter la quantité si visible
+        try {
+          const res = await fetch(`/materiel/${id}`, { method: 'DELETE' });
+          if (res.ok) {
+            row.remove();
+            alert('🗑 Matériel supprimé !');
+          } else {
+            alert('❌ Erreur lors de la suppression');
+          }
+        } catch (err) {
+          alert('⚠️ Erreur réseau');
+        }
+      });
     });
+  </script>
 
-    // ✅ Afficher la somme totale
-    totalContainer.textContent = `Total des quantités affichées : ${totalQte}`;
-  }
+  <!-- ➕ AJOUT -->
+  <script>
+    const addForm = document.getElementById('addForm');
+    addForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(addForm);
+      const data = Object.fromEntries(formData.entries());
 
-  // ✅ Écouteurs de filtres
-  filterDesignation.addEventListener('input', filterTable);
-  filterSection.addEventListener('change', filterTable);
-  filterPosition.addEventListener('change', filterTable);
-
-  // Appel initial
-  filterTable();
-}
-</script>
-
-<!-- 🔎 EXPORTER PDF -->
-
-<script>
-  document.getElementById('exportPDF').addEventListener('click', () => {
-    const { jsPDF } = window.jspdf;
-
-    const doc = new jsPDF({
-      orientation: 'landscape',
-      unit: 'mm',
-      format: 'a4'
-    });
-
-    // 🔹 Titre
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(16);
-    doc.text("Liste du Matériel - APC Zighoud Youcef", 148, 15, { align: "center" });
-
-    // 🔹 Récupération des données visibles
-    const rows = [];
-    const headers = [];
-    const table = document.querySelector('.table tbody');
-    const headerCells = document.querySelectorAll('.table thead th');
-
-    headerCells.forEach((th, i) => {
-      if (i < headerCells.length - 1) headers.push(th.textContent.trim());
-    });
-
-    table.querySelectorAll('tr').forEach(tr => {
-      if (tr.style.display !== 'none') {
-        const rowData = [];
-        tr.querySelectorAll('td').forEach((td, i) => {
-          if (i < tr.children.length - 1) rowData.push(td.textContent.trim());
+      try {
+        const res = await fetch('/materiel', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
         });
-        rows.push(rowData);
-      }
-    });
 
-    // 📊 Tableau centré
-    doc.autoTable({
-      head: [headers],
-      body: rows,
-      startY: 25,
-      theme: 'grid',
-      tableWidth: 'wrap',
-      tableLineColor: [200, 200, 200],
-      tableLineWidth: 0.1,
-      styles: {
-        fontSize: 9,
-        cellPadding: 3,
-        overflow: 'linebreak',
-        halign: 'center'
-      },
-      headStyles: {
-        fillColor: [46, 125, 50],
-        textColor: 255,
-        fontStyle: 'bold'
-      },
-      bodyStyles: {
-        textColor: 20,
-        lineColor: [200, 200, 200],
-      },
-      alternateRowStyles: {
-        fillColor: [245, 245, 245]
-      },
-      margin: { top: 25 },
-      // 🔹 Centrer horizontalement
-      horizontalPageBreak: false,
-      tableWidth: 'auto',
-      didDrawPage: (data) => {
-        const pageWidth = doc.internal.pageSize.getWidth();
-        const tableWidth = data.table.width;
-        const marginX = (pageWidth - tableWidth) / 2;
-        data.settings.margin.left = marginX;
-      },
-      didDrawCell: (data) => {
-        // rien ici
-      },
-      columnStyles: {
-        0: { cellWidth: 60 },
-        1: { cellWidth: 15 },
-        2: { cellWidth: 40 },
-        3: { cellWidth: 35 },
-        4: { cellWidth: 40 },
-        5: { cellWidth: 35 }
-      },
-      didDrawPage: (data) => {
-        const date = new Date().toLocaleDateString();
-        doc.setFontSize(10);
-        doc.text(`Généré le ${date}`, 14, doc.internal.pageSize.height - 10);
-        doc.text(
-          `Page ${doc.internal.getNumberOfPages()}`,
-          doc.internal.pageSize.width - 30,
-          doc.internal.pageSize.height - 10
-        );
-      }
-    });
-
-    const date = new Date().toLocaleDateString().replace(/\//g, '-');
-    doc.save(`Materiel_${date}.pdf`);
-  });
-</script>
-
-
-<!-- 🔎EXPORTER FICHE D'INVENTAIRE   -->
-<script>
-document.getElementById('exportFiche').addEventListener('click', () => {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({
-    orientation: 'portrait',
-    unit: 'mm',
-    format: 'a4'
-  });
-
-  // Récupérer la section sélectionnée
-  const sectionSelect = document.getElementById('filterSection');
-  const selectedSection = sectionSelect.value.trim();
-
-  // Regrouper les matériels par section
-  const rowsBySection = {};
-  document.querySelectorAll('#materielTable tr').forEach(tr => {
-    if (tr.style.display === 'none') return;
-    const section = tr.children[4].textContent.trim() || "Non spécifiée";
-    if (!rowsBySection[section]) rowsBySection[section] = [];
-    rowsBySection[section].push([
-      tr.children[0].textContent.trim(),
-      tr.children[1].textContent.trim(),
-      tr.children[2].textContent.trim(),
-      tr.children[3].textContent.trim(),
-      tr.children[5].textContent.trim()
-    ]);
-  });
-
-  // Si une section est sélectionnée, ne garder qu’elle
-  const sectionsToPrint = selectedSection
-    ? { [selectedSection]: rowsBySection[selectedSection] || [] }
-    : rowsBySection;
-
-  let page = 1;
-  Object.keys(sectionsToPrint).forEach((section, index) => {
-    if (index > 0) doc.addPage();
-
-    // 🔹 En-tête APC
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(14);
-    doc.text("APC Zighoud Youcef", 105, 15, { align: "center" });
-
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(12);
-    doc.text("FICHE D’INVENTAIRE DU MATÉRIEL", 105, 25, { align: "center" });
-    doc.line(20, 27, 190, 27);
-
-    doc.setFontSize(11);
-    doc.text(`Section : ${section}`, 20, 40);
-    const date = new Date().toLocaleDateString();
-    doc.text(`Date : ${date}`, 160, 40, { align: "right" });
-
-    const headers = ["Désignation", "Qté", "N° Série", "État", "Date Entrée"];
-    const rows = sectionsToPrint[section] || [];
-
-    // 🧾 Tableau
-    doc.autoTable({
-      startY: 45,
-      head: [headers],
-      body: rows.length ? rows : [["(Aucun matériel trouvé)", "", "", "", ""]],
-      theme: 'grid',
-      styles: { fontSize: 9, halign: 'center' },
-      headStyles: { fillColor: [22, 163, 74], textColor: 255, fontStyle: 'bold' },
-      alternateRowStyles: { fillColor: [245, 245, 245] },
-      margin: { left: 10, right: 10 }
-    });
-
-    // 🔹 Pied de page : signature
-    const finalY = doc.lastAutoTable.finalY + 20;
-    doc.text("Signature du responsable :", 20, finalY);
-    doc.line(70, finalY, 140, finalY);
-    doc.text("Cachet :", 20, finalY + 20);
-    doc.line(45, finalY + 20, 100, finalY + 20);
-
-    doc.setFontSize(10);
-    doc.text(`Page ${page}`, 180, 285);
-    page++;
-  });
-
-  const fileName = selectedSection
-    ? `Fiche_Inventaire_${selectedSection}.pdf`
-    : `Fiches_Inventaire_Toutes_Sections.pdf`;
-  doc.save(fileName);
-});
-</script>
-<script>
-  // Récupérer l'élément input
-  const dateInput = document.getElementById('date_entree');
-
-  // Créer la date du jour au format YYYY-MM-DD
-  const today = new Date();
-  const yyyy = today.getFullYear();
-  const mm = String(today.getMonth() + 1).padStart(2, '0'); // Mois commence à 0
-  const dd = String(today.getDate()).padStart(2, '0');
-
-  // Mettre la valeur de l'input date
-  dateInput.value = `${yyyy}-${mm}-${dd}`;
-</script>
-
-<script>
-  document.querySelectorAll('.exportBtn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const row = btn.closest('tr');
-      const id = row.dataset.id;
-      // Ouvre le PDF dans un nouvel onglet
-      window.open(`/materiel/export-pdf/${id}`, '_blank');
-    });
-  });
-</script>
-
-<script>
-  
-  document.querySelectorAll('#myTable th').forEach((th, index) => {
-    th.style.cursor = 'pointer'; // Indicateur visuel
-    th.addEventListener('click', () => {
-      const table = th.closest('table');
-      const tbody = table.querySelector('tbody');
-      const rows = Array.from(tbody.querySelectorAll('tr'));
-
-      // Détecte si la colonne est numérique ou textuelle par le premier ligne
-      const isNumeric = !isNaN(rows[0].cells[index].textContent.trim());
-
-      // Trie ascendant/descendant alterné
-      let asc = th.asc !== true;
-      th.asc = asc;
-
-      rows.sort((a, b) => {
-        const cellA = a.cells[index].textContent.trim();
-        const cellB = b.cells[index].textContent.trim();
-
-        if (isNumeric) {
-          return asc ? cellA - cellB : cellB - cellA;
+        if (res.ok) {
+          alert('✅ Matériel ajouté et stock mis à jour !');
+          location.reload(); // Recharge la page pour voir le nouveau matériel
         } else {
-          return asc ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+          // Lire le message du serveur
+          const message = await res.text();
+          alert(`⚠️ ${message}`);
+        }
+      } catch (err) {
+        console.error(err);
+        alert('⚠️ Erreur réseau');
+      }
+    });
+  </script>
+
+
+  <!-- 🔎 FILTRAGE -->
+  <script>
+    const filterDesignation = document.getElementById('filterDesignation');
+    const filterSection = document.getElementById('filterSection');
+    const filterPosition = document.getElementById('filterPosition');
+    const table = document.getElementById('materielTable');
+
+    // ✅ Créer un élément pour afficher la somme (s’il n’existe pas déjà)
+    let totalContainer = document.getElementById('totalQte');
+    if (!totalContainer) {
+      totalContainer = document.createElement('div');
+      totalContainer.id = 'totalQte';
+      totalContainer.className = 'mt-3 fw-bold text-end text-success';
+      table.parentElement.appendChild(totalContainer);
+    }
+
+    if (table) {
+      function normalize(s) {
+        return (s || '').toString().trim().toLowerCase();
+      }
+
+      function filterTable() {
+        const designationValue = normalize(filterDesignation.value);
+        const sectionValue = normalize(filterSection.value);
+        const positionValue = normalize(filterPosition.value);
+
+        let totalQte = 0; // ✅ somme des quantités visibles
+
+        Array.from(table.getElementsByTagName('tr')).forEach(row => {
+          const designation = normalize(row.children[0].textContent);
+          const qte = parseFloat(row.children[1].textContent) || 0;
+          const position = normalize(row.children[3].textContent);
+          const section = normalize(row.children[4].textContent);
+
+          const matchDesignation = designation.includes(designationValue);
+          const matchSection = sectionValue === "" || section === sectionValue;
+          const matchPosition = positionValue === "" || position === positionValue;
+
+          const visible = (matchDesignation && matchSection && matchPosition);
+          row.style.display = visible ? "" : "none";
+
+          if (visible) totalQte += qte; // ✅ ajouter la quantité si visible
+        });
+
+        // ✅ Afficher la somme totale
+        totalContainer.textContent = `Total des quantités affichées : ${totalQte}`;
+      }
+
+      // ✅ Écouteurs de filtres
+      filterDesignation.addEventListener('input', filterTable);
+      filterSection.addEventListener('change', filterTable);
+      filterPosition.addEventListener('change', filterTable);
+
+      // Appel initial
+      filterTable();
+    }
+  </script>
+
+  <!-- 🔎 EXPORTER PDF -->
+
+  <script>
+    document.getElementById('exportPDF').addEventListener('click', () => {
+      const { jsPDF } = window.jspdf;
+
+      const doc = new jsPDF({
+        orientation: 'landscape',
+        unit: 'mm',
+        format: 'a4'
+      });
+
+      // 🔹 Titre
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(16);
+      doc.text("Liste du Matériel - APC Zighoud Youcef", 148, 15, { align: "center" });
+
+      // 🔹 Récupération des données visibles
+      const rows = [];
+      const headers = [];
+      const table = document.querySelector('.table tbody');
+      const headerCells = document.querySelectorAll('.table thead th');
+
+      headerCells.forEach((th, i) => {
+        if (i < headerCells.length - 1) headers.push(th.textContent.trim());
+      });
+
+      table.querySelectorAll('tr').forEach(tr => {
+        if (tr.style.display !== 'none') {
+          const rowData = [];
+          tr.querySelectorAll('td').forEach((td, i) => {
+            if (i < tr.children.length - 1) rowData.push(td.textContent.trim());
+          });
+          rows.push(rowData);
         }
       });
 
-      // Remplace les lignes
-      rows.forEach(row => tbody.appendChild(row));
-    });
-  });
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+      // 📊 Tableau centré
+      doc.autoTable({
+        head: [headers],
+        body: rows,
+        startY: 25,
+        theme: 'grid',
+        tableWidth: 'wrap',
+        tableLineColor: [200, 200, 200],
+        tableLineWidth: 0.1,
+        styles: {
+          fontSize: 9,
+          cellPadding: 3,
+          overflow: 'linebreak',
+          halign: 'center'
+        },
+        headStyles: {
+          fillColor: [46, 125, 50],
+          textColor: 255,
+          fontStyle: 'bold'
+        },
+        bodyStyles: {
+          textColor: 20,
+          lineColor: [200, 200, 200],
+        },
+        alternateRowStyles: {
+          fillColor: [245, 245, 245]
+        },
+        margin: { top: 25 },
+        // 🔹 Centrer horizontalement
+        horizontalPageBreak: false,
+        tableWidth: 'auto',
+        didDrawPage: (data) => {
+          const pageWidth = doc.internal.pageSize.getWidth();
+          const tableWidth = data.table.width;
+          const marginX = (pageWidth - tableWidth) / 2;
+          data.settings.margin.left = marginX;
+        },
+        didDrawCell: (data) => {
+          // rien ici
+        },
+        columnStyles: {
+          0: { cellWidth: 60 },
+          1: { cellWidth: 15 },
+          2: { cellWidth: 40 },
+          3: { cellWidth: 35 },
+          4: { cellWidth: 40 },
+          5: { cellWidth: 35 }
+        },
+        didDrawPage: (data) => {
+          const date = new Date().toLocaleDateString();
+          doc.setFontSize(10);
+          doc.text(`Généré le ${date}`, 14, doc.internal.pageSize.height - 10);
+          doc.text(
+            `Page ${doc.internal.getNumberOfPages()}`,
+            doc.internal.pageSize.width - 30,
+            doc.internal.pageSize.height - 10
+          );
+        }
+      });
 
-<!-- 👈 AVANT </body> dans TOUS tes EJS -->
-<script src="/socket.io/socket.io.js"></script>
-<script>
-  const socket = io();
-  const nomUser = '<%= nom %>';
-  
-  // 👈 Envoi login
-  socket.emit('user-login', { nom: nomUser });
-  
-  // 👈 Affiche compteur temps réel
-  socket.on('users-count', (count) => {
-    document.getElementById('usersCount').textContent = count;
-  });
-</script>
+      const date = new Date().toLocaleDateString().replace(/\//g, '-');
+      doc.save(`Materiel_${date}.pdf`);
+    });
+  </script>
+
+
+  <!-- 🔎EXPORTER FICHE D'INVENTAIRE   -->
+  <script>
+    document.getElementById('exportFiche').addEventListener('click', () => {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+
+      // Récupérer la section sélectionnée
+      const sectionSelect = document.getElementById('filterSection');
+      const selectedSection = sectionSelect.value.trim();
+
+      // Regrouper les matériels par section
+      const rowsBySection = {};
+      document.querySelectorAll('#materielTable tr').forEach(tr => {
+        if (tr.style.display === 'none') return;
+        const section = tr.children[4].textContent.trim() || "Non spécifiée";
+        if (!rowsBySection[section]) rowsBySection[section] = [];
+        rowsBySection[section].push([
+          tr.children[0].textContent.trim(),
+          tr.children[1].textContent.trim(),
+          tr.children[2].textContent.trim(),
+          tr.children[3].textContent.trim(),
+          tr.children[5].textContent.trim()
+        ]);
+      });
+
+      // Si une section est sélectionnée, ne garder qu’elle
+      const sectionsToPrint = selectedSection
+        ? { [selectedSection]: rowsBySection[selectedSection] || [] }
+        : rowsBySection;
+
+      let page = 1;
+      Object.keys(sectionsToPrint).forEach((section, index) => {
+        if (index > 0) doc.addPage();
+
+        // 🔹 En-tête APC
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(14);
+        doc.text("APC Zighoud Youcef", 105, 15, { align: "center" });
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(12);
+        doc.text("FICHE D’INVENTAIRE DU MATÉRIEL", 105, 25, { align: "center" });
+        doc.line(20, 27, 190, 27);
+
+        doc.setFontSize(11);
+        doc.text(`Section : ${section}`, 20, 40);
+        const date = new Date().toLocaleDateString();
+        doc.text(`Date : ${date}`, 160, 40, { align: "right" });
+
+        const headers = ["Désignation", "Qté", "N° Série", "État", "Date Entrée"];
+        const rows = sectionsToPrint[section] || [];
+
+        // 🧾 Tableau
+        doc.autoTable({
+          startY: 45,
+          head: [headers],
+          body: rows.length ? rows : [["(Aucun matériel trouvé)", "", "", "", ""]],
+          theme: 'grid',
+          styles: { fontSize: 9, halign: 'center' },
+          headStyles: { fillColor: [22, 163, 74], textColor: 255, fontStyle: 'bold' },
+          alternateRowStyles: { fillColor: [245, 245, 245] },
+          margin: { left: 10, right: 10 }
+        });
+
+        // 🔹 Pied de page : signature
+        const finalY = doc.lastAutoTable.finalY + 20;
+        doc.text("Signature du responsable :", 20, finalY);
+        doc.line(70, finalY, 140, finalY);
+        doc.text("Cachet :", 20, finalY + 20);
+        doc.line(45, finalY + 20, 100, finalY + 20);
+
+        doc.setFontSize(10);
+        doc.text(`Page ${page}`, 180, 285);
+        page++;
+      });
+
+      const fileName = selectedSection
+        ? `Fiche_Inventaire_${selectedSection}.pdf`
+        : `Fiches_Inventaire_Toutes_Sections.pdf`;
+      doc.save(fileName);
+    });
+  </script>
+  <script>
+    // Récupérer l'élément input
+    const dateInput = document.getElementById('date_entree');
+
+    // Créer la date du jour au format YYYY-MM-DD
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0'); // Mois commence à 0
+    const dd = String(today.getDate()).padStart(2, '0');
+
+    // Mettre la valeur de l'input date
+    dateInput.value = `${yyyy}-${mm}-${dd}`;
+  </script>
+
+  <script>
+    document.querySelectorAll('.exportBtn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const row = btn.closest('tr');
+        const id = row.dataset.id;
+        // Ouvre le PDF dans un nouvel onglet
+        window.open(`/materiel/export-pdf/${id}`, '_blank');
+      });
+    });
+  </script>
+
+  <script>
+
+    document.querySelectorAll('#myTable th').forEach((th, index) => {
+      th.style.cursor = 'pointer'; // Indicateur visuel
+      th.addEventListener('click', () => {
+        const table = th.closest('table');
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+
+        // Détecte si la colonne est numérique ou textuelle par le premier ligne
+        const isNumeric = !isNaN(rows[0].cells[index].textContent.trim());
+
+        // Trie ascendant/descendant alterné
+        let asc = th.asc !== true;
+        th.asc = asc;
+
+        rows.sort((a, b) => {
+          const cellA = a.cells[index].textContent.trim();
+          const cellB = b.cells[index].textContent.trim();
+
+          if (isNumeric) {
+            return asc ? cellA - cellB : cellB - cellA;
+          } else {
+            return asc ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+          }
+        });
+
+        // Remplace les lignes
+        rows.forEach(row => tbody.appendChild(row));
+      });
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </body>
+
 </html>

@@ -23,12 +23,23 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-
+<style>
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+  .stagger-1 { animation-delay: 100ms; }
+  .stagger-2 { animation-delay: 200ms; }
+  .stagger-3 { animation-delay: 300ms; }
+</style>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-blue-50 to-emerald-100 dark:from-zinc-900 dark:to-slate-900 font-nunito text-gray-900 dark:text-gray-100">
 
   <!-- Navbar -->
-  <nav class="flex items-center justify-between shadow-md px-8 py-4 bg-blue-900/95 dark:bg-zinc-900 rounded-b-2xl mb-10">
+  <nav class="animate-fade-in-up flex items-center justify-between shadow-md px-8 py-4 bg-blue-900/95 dark:bg-zinc-900 rounded-b-2xl mb-10">
     <h5 class="text-xl font-bold tracking-wide text-emerald-400 flex items-center gap-2">
       <i class="fa-solid fa-boxes-stacked"></i>
       Gestion du Stock
@@ -45,7 +56,7 @@
   </nav>
 
   <!-- Glass Card -->
-  <div class="max-w-4xl mx-auto bg-white/80 dark:bg-zinc-800/70 rounded-2xl shadow-xl backdrop-blur-lg p-8">
+  <div class="animate-fade-in-up stagger-1 max-w-4xl mx-auto bg-white/80 dark:bg-zinc-800/70 rounded-2xl shadow-xl backdrop-blur-lg p-8">
     <h4 class="text-center mb-6 font-bold text-2xl text-blue-700 dark:text-blue-300 flex items-center justify-center gap-2">
       <i class="fa-solid fa-warehouse"></i> Stock Matériel
     </h4>
@@ -98,7 +109,7 @@
     </form>
   </div>
 
-  <footer class="text-center py-6 text-zinc-400 text-sm mt-10">
+  <footer class="animate-fade-in-up stagger-2 text-center py-6 text-zinc-400 text-sm mt-10">
     © 2025 — Gestion du Stock | A.P.C Zighoud Youcef
   </footer>
 
