@@ -44,5 +44,15 @@ app.use("/validation", validationRoute);
 
 
 // Lancer serveur
-const PORT = 3000;
-app.listen(PORT, () => console.log(`🚀 Serveur sur http://localhost:${PORT}`));
+//const PORT = 3000;
+//app.listen(PORT, () => console.log(`🚀 Serveur sur http://localhost:${PORT}`));
+// ... (tes routes et middlewares)
+
+// Remplacer l'ancien app.listen par ceci :
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = 3000;
+    app.listen(PORT, () => console.log(`🚀 Serveur sur http://localhost:${PORT}`));
+}
+
+// ⚡ TRÈS IMPORTANT pour Vercel
+module.exports = app;
