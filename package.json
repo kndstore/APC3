@@ -23,14 +23,6 @@
     "nodemon": "^3.1.11",
     "pdfkit": "^0.17.2",
     "socket.io": "^4.8.1"
-  },
-  {
-  "version": 2,
-  "builds": [
-    { "src": "api/index.js", "use": "@vercel/node" }
-  ],
-  "routes": [
-    { "src": "/(.*)", "dest": "api/index.js" }
-  ]
-}
+  }
+  
 }
