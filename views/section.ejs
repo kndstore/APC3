@@ -310,17 +310,35 @@
       });
     });
 
-    // 🗑 Suppression
-    document.querySelectorAll('.deleteBtn').forEach(btn=>{
-      btn.addEventListener('click', async e=>{
-        if(!confirm('Supprimer cette section ?')) return;
-        const tr = e.target.closest('tr');
-        const id = tr.dataset.id;
-        const res = await fetch(`/section/delete/${id}`, {method:'DELETE'});
-        if(res.ok){ tr.remove(); alert('🗑️ Section supprimée !'); }
-        else alert('❌ Erreur !');
-      });
-    });
+   // 🗑 Suppression
+ document.querySelectorAll('.deleteBtn').forEach(btn => {
+   btn.addEventListener('click', async e => {
+     
+     // 1. Première confirmation classique
+     if (!confirm('Voulez-vous vraiment supprimer cette section ?')) return;
+
+     // 2. Message d'avertissement crucial concernant le matériel
+     const avertissement = "⚠️ ATTENTION : Vous devez transférer tout le matériel vers une autre section avant la suppression définitive.\n\nConfirmez-vous avoir effectué ce transfert ?";
+     if (!confirm(avertissement)) return;
+
+     const tr = e.target.closest('tr');
+     const id = tr.dataset.id;
+
+     try {
+       const res = await fetch(`/section/delete/${id}`, { method: 'DELETE' });
+       
+       if (res.ok) {
+         tr.remove();
+         alert('🗑️ Section supprimée avec succès !');
+       } else {
+         // Si le serveur renvoie une erreur (ex: s'il reste du matériel en base de données)
+         alert('❌ Impossible de supprimer : assurez-vous que la section est bien vide.');
+       }
+     } catch (error) {
+       alert('❌ Erreur de connexion au serveur.');
+     }
+   });
+ });
   </script>
   <script>
   const nomInput = document.getElementById('nomSectionInput');
